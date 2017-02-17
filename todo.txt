@@ -1,0 +1,17 @@
+
+Environment (James)
+
+*   Render journal
+*   Render camera
+*   Find creatures
+*   Define what each creature does
+
+Player (Samson)
+
+*   Key presses for journal and camera 
+*   Take snapshot
+*   Detect creatures in view
+
+Optional
+*   Inventory (with baiting)
+
