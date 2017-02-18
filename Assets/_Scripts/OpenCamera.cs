@@ -15,6 +15,7 @@ public class OpenCamera : MonoBehaviour {
 	Canvas photoCanvas;
 	Canvas iconCanvas;
 	FirstPersonController player;
+	AudioSource audio;
 
 	// Use this for initialization
 	void Start () {
@@ -26,6 +27,8 @@ public class OpenCamera : MonoBehaviour {
 
 		photoCanvas.gameObject.SetActive (false);
 		photoCam.gameObject.SetActive (false);
+
+		audio = GetComponent<AudioSource> ();
 	}
 	
 	// Update is called once per frame
@@ -42,8 +45,7 @@ public class OpenCamera : MonoBehaviour {
 	}
 
 	void EnablePhotoCamera () {
-		//player.enabled = false; // disable the player
-	
+		// stop the player from moving
 		player.m_WalkSpeed = 0;
 		player.m_RunSpeed = 0;
 		player.m_GravityMultiplier = 100;
