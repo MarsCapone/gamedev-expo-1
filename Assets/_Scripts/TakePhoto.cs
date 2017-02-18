@@ -50,7 +50,7 @@ public class TakePhoto : MonoBehaviour {
 
 		Texture2D photo = new Texture2D (resWidth, resHeight, TextureFormat.RGB24, false);
 		photo.ReadPixels (new Rect (0, 0, resWidth, resHeight), 0, 0);
-		//photo.Apply ();
+		photo.Apply ();
 
 		byte[] bytes = photo.EncodeToPNG ();
 		string filename = GetPhotoName (resWidth, resHeight);
