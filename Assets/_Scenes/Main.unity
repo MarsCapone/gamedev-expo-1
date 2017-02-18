@@ -964,7 +964,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3ea80416ba356ab4ca458944a9b3984b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  whiteLightTime: 9
+  whiteLightTime: 8
   yellowLightTime: 6.5
   redLightTime: 5.5
   sunriseStartTime: 5
