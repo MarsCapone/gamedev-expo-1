@@ -3143,6 +3143,8 @@ MonoBehaviour:
     animation: Run
   - state: 1
     animation: Die_000
+  - state: 2
+    animation: Run
 --- !u!95 &1423599148
 Animator:
   serializedVersion: 3
@@ -4132,7 +4134,12 @@ Prefab:
     - target: {fileID: 114296072791294148, guid: 88effa4d4867c554a92751a0268b0813,
         type: 2}
       propertyPath: initialTime
-      value: 19.5
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 114296072791294148, guid: 88effa4d4867c554a92751a0268b0813,
+        type: 2}
+      propertyPath: minutesPerFrame
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 88effa4d4867c554a92751a0268b0813, type: 2}

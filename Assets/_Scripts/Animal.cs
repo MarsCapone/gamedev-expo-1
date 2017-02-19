@@ -118,5 +118,9 @@ public class Animal : MonoBehaviour, ITimeBasedObject {
         state = BehaviourState.running;
     }
 
+    public void idle()
+    {
+        state = BehaviourState.idle;
+    }
 }
 
