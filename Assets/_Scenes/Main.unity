@@ -3833,6 +3833,8 @@ GameObject:
   - component: {fileID: 1999005952}
   - component: {fileID: 1999005953}
   - component: {fileID: 1999005954}
+  - component: {fileID: 1999005956}
+  - component: {fileID: 1999005955}
   m_Layer: 0
   m_Name: Schedule
   m_TagString: Untagged
@@ -3875,6 +3877,30 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 91f0fa346c7f6e645bd90f7039ddb646, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  startTime: 10
+--- !u!114 &1999005955
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1999005951}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 99b74b1347d7773458790017b75b4bc2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  startTime: 15
+--- !u!114 &1999005956
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1999005951}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 99b74b1347d7773458790017b75b4bc2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   startTime: 6
@@ -4139,7 +4165,7 @@ Prefab:
     - target: {fileID: 114296072791294148, guid: 88effa4d4867c554a92751a0268b0813,
         type: 2}
       propertyPath: minutesPerFrame
-      value: 1
+      value: 0.5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 88effa4d4867c554a92751a0268b0813, type: 2}
