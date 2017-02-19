@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Sunlight : MonoBehaviour
+public class Sunlight : MonoBehaviour, ITimeBasedObject
 {
 
     private Light lightComponent;
@@ -49,4 +49,6 @@ public class Sunlight : MonoBehaviour
             lightComponent.intensity = timeDistanceFromMidnight < sunriseStartTime ? 0 : (timeDistanceFromMidnight - sunriseStartTime) / (12 - sunriseStartTime) * 1.5F;
         }
     }
+
+    public void newDay() { }
 }
