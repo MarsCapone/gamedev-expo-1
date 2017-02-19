@@ -90,7 +90,7 @@ NavMeshSettings:
     manualCellSize: 0
     cellSize: 0.16666667
     accuratePlacement: 0
-  m_NavMeshData: {fileID: 23800000, guid: 4d6a81cb1f7ec9944b5e3ddbc88e8476, type: 2}
+  m_NavMeshData: {fileID: 0}
 --- !u!1 &33532884
 GameObject:
   m_ObjectHideFlags: 0
@@ -1114,7 +1114,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 8
+  m_StaticEditorFlags: 0
   m_IsActive: 1
 --- !u!4 &482049274
 Transform:
@@ -1190,7 +1190,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 8
+  m_StaticEditorFlags: 0
   m_IsActive: 1
 --- !u!4 &503565849
 Transform:
@@ -1429,7 +1429,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 8
+  m_StaticEditorFlags: 0
   m_IsActive: 1
 --- !u!4 &618308253
 Transform:
@@ -1500,7 +1500,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 8
+  m_StaticEditorFlags: 0
   m_IsActive: 1
 --- !u!4 &682079405
 Transform:
@@ -1571,7 +1571,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 8
+  m_StaticEditorFlags: 0
   m_IsActive: 1
 --- !u!4 &688683033
 Transform:
@@ -1655,63 +1655,6 @@ Transform:
   - {fileID: 313381080}
   - {fileID: 2091910114}
   m_Father: {fileID: 1975002699}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &700519893
-GameObject:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  serializedVersion: 5
-  m_Component:
-  - component: {fileID: 700519894}
-  m_Layer: 0
-  m_Name: Habitats
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &700519894
-Transform:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 700519893}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children:
-  - {fileID: 747228658}
-  m_Father: {fileID: 846177708}
-  m_RootOrder: 6
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &747228657
-GameObject:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  serializedVersion: 5
-  m_Component:
-  - component: {fileID: 747228658}
-  m_Layer: 0
-  m_Name: DebugDeerSleepingPlace
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &747228658
-Transform:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 747228657}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -132.87, y: 2.79, z: -182.72}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 700519894}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &763741916
@@ -1899,7 +1842,6 @@ Transform:
   - {fileID: 2136680463}
   - {fileID: 498947544}
   - {fileID: 421783238}
-  - {fileID: 700519894}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -2010,7 +1952,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 8
+  m_StaticEditorFlags: 0
   m_IsActive: 1
 --- !u!4 &859797801
 Transform:
@@ -2081,7 +2023,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 8
+  m_StaticEditorFlags: 0
   m_IsActive: 1
 --- !u!154 &903495463
 TerrainCollider:
@@ -2381,7 +2323,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1164659389}
   - component: {fileID: 1164659390}
-  - component: {fileID: 1164659391}
   m_Layer: 0
   m_Name: Head
   m_TagString: Untagged
@@ -2396,7 +2337,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1164659388}
   m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0, y: 1.19, z: -2.8380435}
+  m_LocalPosition: {x: -0, y: -0.64775693, z: -2.8380435}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1423599145}
@@ -2477,19 +2418,6 @@ SkinnedMeshRenderer:
     m_Center: {x: -2.8798285, y: 0.032298088, z: 2.8456464}
     m_Extent: {x: 1.5464468, y: 5.539865, z: 3.0250554}
   m_DirtyAABB: 0
---- !u!136 &1164659391
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1164659388}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  m_Radius: 0.6
-  m_Height: 1.69
-  m_Direction: 2
-  m_Center: {x: -0.032296732, y: 3.66, z: 6.13}
 --- !u!1 &1252291449
 GameObject:
   m_ObjectHideFlags: 0
@@ -3117,7 +3045,6 @@ GameObject:
   - component: {fileID: 1423599146}
   - component: {fileID: 1423599147}
   - component: {fileID: 1423599148}
-  - component: {fileID: 1423599149}
   m_Layer: 0
   m_Name: deer
   m_TagString: Animal
@@ -3216,8 +3143,6 @@ MonoBehaviour:
     animation: Run
   - state: 1
     animation: Die_000
-  - state: 2
-    animation: Run
 --- !u!95 &1423599148
 Animator:
   serializedVersion: 3
@@ -3235,26 +3160,6 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
---- !u!195 &1423599149
-NavMeshAgent:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1423599142}
-  m_Enabled: 1
-  m_Radius: 1
-  m_Speed: 20
-  m_Acceleration: 20
-  avoidancePriority: 50
-  m_AngularSpeed: 300
-  m_StoppingDistance: 10
-  m_AutoTraverseOffMeshLink: 1
-  m_AutoBraking: 1
-  m_AutoRepath: 1
-  m_Height: 2
-  m_BaseOffset: 0
-  m_WalkableMask: 4294967295
-  m_ObstacleAvoidanceType: 4
 --- !u!1 &1423987455
 GameObject:
   m_ObjectHideFlags: 0
@@ -3376,7 +3281,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 8
+  m_StaticEditorFlags: 0
   m_IsActive: 1
 --- !u!4 &1446841295
 Transform:
@@ -3704,7 +3609,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 8
+  m_StaticEditorFlags: 0
   m_IsActive: 1
 --- !u!4 &1866223879
 Transform:
@@ -3926,8 +3831,6 @@ GameObject:
   - component: {fileID: 1999005952}
   - component: {fileID: 1999005953}
   - component: {fileID: 1999005954}
-  - component: {fileID: 1999005956}
-  - component: {fileID: 1999005955}
   m_Layer: 0
   m_Name: Schedule
   m_TagString: Untagged
@@ -3960,7 +3863,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   startTime: 21
-  home: {fileID: 747228657}
+  home: {fileID: 0}
 --- !u!114 &1999005954
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3970,30 +3873,6 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 91f0fa346c7f6e645bd90f7039ddb646, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  startTime: 10
---- !u!114 &1999005955
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1999005951}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 99b74b1347d7773458790017b75b4bc2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  startTime: 15
---- !u!114 &1999005956
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1999005951}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 99b74b1347d7773458790017b75b4bc2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   startTime: 6
@@ -4253,12 +4132,7 @@ Prefab:
     - target: {fileID: 114296072791294148, guid: 88effa4d4867c554a92751a0268b0813,
         type: 2}
       propertyPath: initialTime
-      value: 20.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 114296072791294148, guid: 88effa4d4867c554a92751a0268b0813,
-        type: 2}
-      propertyPath: minutesPerFrame
-      value: 0.1
+      value: 19.5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 88effa4d4867c554a92751a0268b0813, type: 2}

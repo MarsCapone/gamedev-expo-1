@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.AI;
 
 public class Animal : MonoBehaviour, ITimeBasedObject {
     
@@ -41,7 +40,7 @@ public class Animal : MonoBehaviour, ITimeBasedObject {
             }
         }
     }
-    private Action continuation; //used for chains of multiple actions
+
 
     [Serializable]
     public class BehaviourAnimation
@@ -58,9 +57,6 @@ public class Animal : MonoBehaviour, ITimeBasedObject {
 
     private AnimalBehaviour[] schedule;
 
-    private NavMeshAgent navigation;
-    private bool navigating = false;
-
     void Start()
     {
         schedule = GetComponentsInChildren<AnimalBehaviour>();
@@ -74,7 +70,6 @@ public class Animal : MonoBehaviour, ITimeBasedObject {
             animationDict.Add(a.state, a.animation);
         }
         animationController = GetComponent<Animation>();
-        navigation = GetComponent<NavMeshAgent>();
     }
 
     public void updateTime(float time)
@@ -96,30 +91,6 @@ public class Animal : MonoBehaviour, ITimeBasedObject {
         }
     }
 
-    public void Update()
-    {
-        if (navigating) {
-            float distanceToTarget = navigation.remainingDistance;
-            if((!navigation.pathPending) && 
-                (navigation.remainingDistance <= navigation.stoppingDistance) &&
-                (!navigation.hasPath || navigation.velocity.sqrMagnitude == 0f))
-            {
-                navigating = false;
-                navigation.Stop();
-                if(continuation != null)
-                {
-                    Action currentContinuation = continuation;
-                    continuation = null;
-                    currentContinuation();
-                }
-                else
-                {
-                    state = BehaviourState.idle;
-                }
-            }
-        }
-    }
-
     public void newDay()
     {
         currentBehaviour = null;
@@ -132,11 +103,9 @@ public class Animal : MonoBehaviour, ITimeBasedObject {
         state = BehaviourState.asleep;
     }
 
-    public void walkTo(Vector3 location)
+    public void walkTo(Vector3 point)
     {
         state = BehaviourState.walking;
-        navigation.SetDestination(location);
-        navigating = true;
     }
 
     public void wander()
@@ -147,17 +116,7 @@ public class Animal : MonoBehaviour, ITimeBasedObject {
     public void runAwayFrom(GameObject obj)
     {
         state = BehaviourState.running;
-        //TODO: assign object as thing to run away from, keep track of its position on every Update() and set the navigation destination to something really far awy from that position
     }
 
-    public void idle()
-    {
-        state = BehaviourState.idle;
-    }
-
-    public void setContinuation(Action continuation)
-    {
-        this.continuation = continuation;
-    }
 }
 
