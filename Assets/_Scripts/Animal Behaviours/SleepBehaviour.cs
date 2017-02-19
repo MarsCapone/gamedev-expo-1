@@ -11,9 +11,9 @@ public class SleepBehaviour : AnimalBehaviour
         Action goToSleep = delegate { animal.sleep(); };
         Action walkHome = delegate {
             animal.walkTo(home.GetComponent<Transform>().position);
-            goToSleep();
+            animal.setContinuation(goToSleep);
         };
-        goToSleep(); //DEBUG - normally call walkHome() first
+        walkHome(); 
     }
     
 }
