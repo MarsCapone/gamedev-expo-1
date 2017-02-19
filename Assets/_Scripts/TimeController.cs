@@ -6,7 +6,7 @@ public class TimeController : MonoBehaviour
 {
 
     //time speed variables
-    public float minutesPerFrame; //0.05 seems reasonable? -JPML
+    public float minutesPerFrame;
     public float initialTime;
     private float time;
 
