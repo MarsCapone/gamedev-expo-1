@@ -57,23 +57,22 @@ public class Animal : MonoBehaviour, ITimeBasedObject {
     private AnimalBehaviour currentBehaviour;
 
     private AnimalBehaviour[] schedule;
+    private BehaviourInterrupt[] interrupts;
+
+    private BehaviourAction currentAction;
 
     private NavMeshAgent navigation;
-    private bool navigating = false;
+    //private bool navigating = false;
 
     void Start()
     {
         schedule = GetComponentsInChildren<AnimalBehaviour>();
         Array.Sort(schedule, (x, y) => x.startTime.CompareTo(y.startTime));
-        //DEBUG
-        foreach(AnimalBehaviour b in schedule)
-        {
-            Debug.Log(b.GetType().ToString());
-        }
         foreach(BehaviourAnimation a in animations){
             animationDict.Add(a.state, a.animation);
         }
         animationController = GetComponent<Animation>();
+        interrupts = GetComponentsInChildren<BehaviourInterrupt>();
         navigation = GetComponent<NavMeshAgent>();
     }
 
@@ -87,8 +86,9 @@ public class Animal : MonoBehaviour, ITimeBasedObject {
                 {
                     if (!currentBehaviour || (currentBehaviour != b && currentBehaviour.startTime < b.startTime))
                     {
+                        Debug.Log(b);
                         currentBehaviour = b;
-                        b.perform(this);
+                        b.activate(this);
                         break;
                     }
                 }
@@ -98,23 +98,54 @@ public class Animal : MonoBehaviour, ITimeBasedObject {
 
     public void Update()
     {
-        if (navigating) {
+        if (currentAction == BehaviourAction.walkTowards || currentAction == BehaviourAction.runAway) {
             float distanceToTarget = navigation.remainingDistance;
             if((!navigation.pathPending) && 
                 (navigation.remainingDistance <= navigation.stoppingDistance) &&
                 (!navigation.hasPath || navigation.velocity.sqrMagnitude == 0f))
             {
-                navigating = false;
+                Debug.Log("STOPPED");
                 navigation.Stop();
-                if(continuation != null)
+                switch (currentAction)
                 {
-                    Action currentContinuation = continuation;
-                    continuation = null;
-                    currentContinuation();
+                    case BehaviourAction.none:
+                        break;
+                    case BehaviourAction.sleep:
+                        break;
+                    case BehaviourAction.walkTowards:
+                        if (continuation != null)
+                        {
+                            Action currentContinuation = continuation;
+                            continuation = null;
+                            currentContinuation();
+                        }
+                        else
+                        {
+                            idle();
+                        }
+                        break;
+                    case BehaviourAction.runAway:
+                        resumeSchedule();
+                        break;
+                    case BehaviourAction.wander:
+                        wander();
+                        break;
+                    case BehaviourAction.idle:
+                    default:
+                        idle();
+                        break;
                 }
-                else
+                currentAction = BehaviourAction.none;
+            }
+        }
+        if (!scheduleInterrupted)
+        {
+            foreach (BehaviourInterrupt interrupt in interrupts)
+            {
+                if (interrupt.check())
                 {
-                    state = BehaviourState.idle;
+                    interruptSchedule();
+                    interrupt.trigger();
                 }
             }
         }
@@ -132,11 +163,12 @@ public class Animal : MonoBehaviour, ITimeBasedObject {
         state = BehaviourState.asleep;
     }
 
-    public void walkTo(Vector3 location)
+    public void walkTo(Vector3 location, float tolerance=0F)
     {
         state = BehaviourState.walking;
         navigation.SetDestination(location);
-        navigating = true;
+        navigation.stoppingDistance = tolerance;
+        currentAction = BehaviourAction.walkTowards;
     }
 
     public void wander()
@@ -144,15 +176,42 @@ public class Animal : MonoBehaviour, ITimeBasedObject {
         state = BehaviourState.walking;
     }
 
-    public void runAwayFrom(GameObject obj)
+    public void runAwayFrom(GameObject obj, float distanceToRun, float tolerance=0F)
     {
         state = BehaviourState.running;
-        //TODO: assign object as thing to run away from, keep track of its position on every Update() and set the navigation destination to something really far awy from that position
+        //code adapted from http://answers.unity3d.com/questions/868003/navmesh-flee-ai-flee-from-player.html
+        Quaternion newRotation = Quaternion.LookRotation(transform.position - obj.GetComponent<Transform>().position);
+
+        newRotation.eulerAngles = new Vector3(newRotation.eulerAngles.x, 0, newRotation.eulerAngles.z);
+
+        Vector3 runTo = transform.position + newRotation.eulerAngles * (distanceToRun + tolerance);
+        Debug.Log(runTo);
+
+        //NavMeshHit hit;
+        //NavMesh.SamplePosition(runTo, out hit, 5, 1 << NavMesh.GetAreaFromName("Walkable"));
+
+        //navigation.SetDestination(hit.position);
+        //Debug.Log(hit.position);
+        navigation.SetDestination(runTo);
+        navigation.stoppingDistance = tolerance;
+        currentAction = BehaviourAction.runAway;
+    }
+
+    public void interruptSchedule()
+    {
+        scheduleInterrupted = true;
+        currentBehaviour = null;
+    }
+
+    public void resumeSchedule()
+    {
+        scheduleInterrupted = false;
     }
 
     public void idle()
     {
         state = BehaviourState.idle;
+        currentAction = BehaviourAction.idle;
     }
 
     public void setContinuation(Action continuation)

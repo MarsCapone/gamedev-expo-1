@@ -54,3 +54,4 @@ MonoBehaviour:
   minutesPerFrame: 0.05
   initialTime: 5
   sun: {fileID: 0}
+  animals: {fileID: 0}
