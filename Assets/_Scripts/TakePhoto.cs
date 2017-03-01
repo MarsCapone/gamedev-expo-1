@@ -14,7 +14,7 @@ public class TakePhoto : MonoBehaviour {
 	public AudioClip shutterSound;
 
 	public static int photoSize = 200;
-	public static string photoDirectory = Application.persistentDataPath + "/photos";
+	public static string photoDirectory = "/photos";
 	public static int thumbnailSize = 600;
 
 	private AudioSource audioSource;

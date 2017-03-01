@@ -44,10 +44,10 @@ public class Journal : MonoBehaviour {
 		journalCanvas.gameObject.SetActive (true);
 
 		// get text descriptions for images
-		lpliText = leftPageLeftImage.GetComponent<Text> ();
-		lpriText = leftPageRightImage.GetComponent<Text> ();
-		rpliText = rightPageLeftImage.GetComponent<Text> ();
-		rpriText = rightPageRightImage.GetComponent<Text> ();
+		lpliText = leftPageLeftImage.gameObject.GetComponentInChildren<Text> ();
+		lpriText = leftPageRightImage.gameObject.GetComponentInChildren<Text> ();
+		rpliText = rightPageLeftImage.gameObject.GetComponentInChildren<Text> ();
+		rpriText = rightPageRightImage.gameObject.GetComponentInChildren<Text> ();
 
 
 		// add "other" to seeable creatures for scenic photos
@@ -55,13 +55,8 @@ public class Journal : MonoBehaviour {
 		seeableCreatures.CopyTo (tmpCreatures, 0);
 		GameObject otherPhotos = new GameObject ();
 		otherPhotos.name = "other";
-		tmpCreatures [tmpCreatures.Length] = otherPhotos;
+		tmpCreatures [tmpCreatures.Length - 1] = otherPhotos;
 		seeableCreatures = tmpCreatures;
-
-		foreach (GameObject go in seeableCreatures) {
-			mainImages.Add (go.name, new List<Sprite> ());
-			thumbnailImages.Add (go.name, new List<Sprite> ());
-		}
 	}
 
 	// Update is called once per frame

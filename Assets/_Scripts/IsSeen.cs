@@ -7,12 +7,12 @@ public class IsSeen : MonoBehaviour {
 	// do something if this object is seen by a camera
 
 	public Camera cam = null;
-	public string creatureName = null;
 
 	private float margin = -0.2f;
 	private float lowerMargin;
 	private float upperMargin;
 	private bool onScreen;
+
 
 	private static Dictionary<string, int> capturedCountMap = new Dictionary<string, int> ();
 	public static Dictionary<string, bool> discoveredCreatures = new Dictionary<string, bool> ();
@@ -21,10 +21,6 @@ public class IsSeen : MonoBehaviour {
 	void Start () {
 		if (cam == null) {
 			cam = GameObject.Find ("Polaroid").GetComponent<Camera> ();
-		}
-
-		if (creatureName != null) {
-			gameObject.name = creatureName;
 		}
 
 		lowerMargin = 0 - margin;
@@ -37,7 +33,7 @@ public class IsSeen : MonoBehaviour {
 		}
 
 		// when the script starts, nothing has yet been photographed
-		discoveredCreatures.Add (gameObject.name, false);
+		discoveredCreatures[gameObject.name] = false;
 	}
 	
 	void Update () {
@@ -53,7 +49,7 @@ public class IsSeen : MonoBehaviour {
 			if (capturedCountMap.ContainsKey(gameObject.name)) {
 				// save as deer/img1, deer/img2, etc.
 				TakePhoto.DoCaptureScreen(gameObject); 
-				discoveredCreatures.Add (gameObject.name, true);
+				discoveredCreatures [gameObject.name] = true;
 				capturedCountMap [gameObject.name] += 1;
 			} else {
 				Debug.Log("Somehow the name of this object has not yet been initialised.");
