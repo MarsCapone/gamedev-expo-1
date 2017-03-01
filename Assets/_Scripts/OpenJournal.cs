@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class OpenJournal : MonoBehaviour {
 
@@ -18,8 +19,10 @@ public class OpenJournal : MonoBehaviour {
 
 	void OnGUI () {
 		if (journalIsOpen && prevState != journalIsOpen) {
-			Debug.Log ("The journal has just been opened.");
-		} else if (!journalIsOpen && prevState != journalIsOpen) {
+			SceneManager.UnloadSceneAsync ("Main");
+			SceneManager.LoadScene ("Journal");
+			Journal.showSlide = false;
+		} else if (!journalIsOpen && prevState != journalIsOpen && !Journal.showSlide) {
 			Debug.Log ("The journal has just been closed.");
 		}
 	}

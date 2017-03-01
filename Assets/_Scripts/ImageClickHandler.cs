@@ -2,12 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TerrainTiler : MonoBehaviour {
+public class ImageClickHandler : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		Terrain terrain = GetComponent<Terrain> ();
-		terrain.SetNeighbors (terrain, terrain, terrain, terrain);
+		
 	}
 	
 	// Update is called once per frame
