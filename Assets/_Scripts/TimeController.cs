@@ -50,6 +50,10 @@ public class TimeController : MonoBehaviour
     {
         timeBasedObjects.Remove(obj);
     }
+
+	public float GetTime() {
+		return time;
+	}
 }
 
 public interface ITimeBasedObject

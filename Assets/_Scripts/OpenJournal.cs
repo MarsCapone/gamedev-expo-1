@@ -5,33 +5,34 @@ using UnityEngine.SceneManagement;
 
 public class OpenJournal : MonoBehaviour {
 
+	public GameObject mainRoot;
+	public GameObject journalRoot;
+
 	public static bool journalIsOpen = false;
 	bool prevState = false;
 	public KeyCode toggle; 
 
-	public GameObject journalRoot;
-	public GameObject root;
-
 	// Update is called once per frame
 	void Update () {
 		prevState = journalIsOpen;
-		if (Input.GetKeyDown (toggle)) {
+		if (Input.GetKeyDown (toggle) && !OpenCamera.cameraIsOpen) {
 			journalIsOpen = !journalIsOpen;
 		}
 	}
 
-	void OnGUI () {
-		if (journalIsOpen && prevState != journalIsOpen) {
-//			SceneManager.UnloadSceneAsync ("Main");
-//			SceneManager.LoadScene ("Journal");
-			journalRoot.SetActive(true);
-			root.SetActive (false);
-			Journal.showSlide = false;
-		} else if (!journalIsOpen && prevState != journalIsOpen && !Journal.showSlide) {
-//			SceneManager.LoadScene ("Main");
-//			SceneManager.UnloadSceneAsync ("Journal");
-			journalRoot.SetActive(false);
-			root.SetActive (true);
+	void LateUpdate () {
+		if (journalIsOpen && prevState != journalIsOpen && !OpenCamera.cameraIsOpen) {
+			mainRoot.gameObject.SetActive (false);
+			journalRoot.gameObject.SetActive (true);
+			Time.timeScale = 0;
+			Cursor.lockState = CursorLockMode.None;
+			Cursor.visible = true;
+		} else if (!journalIsOpen && prevState != journalIsOpen) {
+			mainRoot.gameObject.SetActive (true);
+			journalRoot.gameObject.SetActive (false);
+			Time.timeScale = 1;
+			Cursor.lockState = CursorLockMode.Locked;
+			Cursor.visible = false;
 		}
 	}
 }

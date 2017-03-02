@@ -7,37 +7,24 @@ using UnityEngine;
 [RequireComponent(typeof(AudioSource))]
 public class TakePhoto : MonoBehaviour {
 
-	private const string CAMERA_NAME = "Polaroid";
+	private const int PHOTO_SIZE = 600;
 
 	public static bool takePhoto = false;
 	public KeyCode photoCapture;
 	public AudioClip shutterSound;
-
-	public static int photoSize = 200;
-	public static string photoDirectory = "/photos";
-	public static int thumbnailSize = 600;
+	public Camera cam;
+	public GameObject overlay;
 
 	private AudioSource audioSource;
 
 
 	void Start () {
-		// create the directory where the photos are going to go, otherwise there is an error
-		Directory.CreateDirectory (string.Format ("{0}/thumbnails", photoDirectory)); 
 		audioSource = GetComponent<AudioSource> ();
 	}
-
-	public static string GetPhotoName(string name) {
-		return string.Format ("{0}/{1}.png",
-			photoDirectory, name);
-	}
-
-	public static string GetThumbnailName(string name) {
-		return string.Format ("{0}/thumbnails/{1}.png",
-			photoDirectory, name);
-	}
 	
-	void LateUpdate () {
-		if ((Input.GetKeyDown (photoCapture) || Input.GetMouseButtonDown(0)) && OpenCamera.cameraIsOpen) {
+	void Update () {
+		if (Input.GetKeyDown (photoCapture) && OpenCamera.cameraIsOpen) {
+			print ("Taking a photo.");
 			takePhoto = true;
 		} else {
 			takePhoto = false;
@@ -52,8 +39,8 @@ public class TakePhoto : MonoBehaviour {
 		}
 	}
 		
-	public static Sprite CaptureScreen (int size, GameObject go) {
-		Camera cam = GameObject.Find (CAMERA_NAME).GetComponent<Camera> ();
+	public Sprite CaptureScreen () {
+		int size = PHOTO_SIZE;
 
 		RenderTexture rt = new RenderTexture (size, size, 24);
 		cam.targetTexture = rt;
@@ -74,28 +61,11 @@ public class TakePhoto : MonoBehaviour {
 		return sprite;
 	}
 
-	public static void DoCaptureScreen (GameObject go) {
-		Sprite photo = CaptureScreen (photoSize, go);
-		Sprite thumnail = CaptureScreen (thumbnailSize, go);
-
-		List<Sprite> spriteList;
-
-		if (Journal.mainImages.ContainsKey (go.name)) {
-			spriteList = Journal.mainImages [go.name];
-		} else {
-			spriteList = new List<Sprite> ();
-		}
-		spriteList.Add (photo);
-		Journal.mainImages [go.name] = spriteList;
-	
-
-		if (Journal.thumbnailImages.ContainsKey (go.name)) {
-			spriteList = Journal.mainImages [go.name];
-		} else {
-			spriteList = new List<Sprite> ();
-		}
-		spriteList.Add (photo);
-		Journal.thumbnailImages [go.name] = spriteList;
+	public void DoCaptureScreen (string name) {
+		overlay.SetActive (false); // don't capture the overlay in the image
+		Sprite photo = CaptureScreen ();
+		overlay.SetActive (true);
+		ViewCreatures.AddCreatureImage (name, photo);
 	}
 
 	void PlayShutterSound () {

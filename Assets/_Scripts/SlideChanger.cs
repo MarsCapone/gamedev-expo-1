@@ -10,36 +10,41 @@ public class SlideChanger : MonoBehaviour {
 	public KeyCode prevSlide = KeyCode.LeftArrow;
 	public KeyCode escapeSlide = KeyCode.Escape;
 
-	private Canvas slideShowCanvas;
-	private Image currentImage;
-	private int selectedImagesIndex = 0;
-	private List<Sprite> imagePaths;
+	public GameObject hideWhile;
+	public Image currentImage;
 
+	private int selectedImagesIndex = 0;
+	private List<Sprite> images;
+	private bool showSlides;
 
 	// Use this for initialization
 	void Start () {
-		slideShowCanvas = GameObject.Find ("SlideShowCanvas").GetComponent<Canvas> ();
-		currentImage = GameObject.Find ("CurrentImage").GetComponent<Image> ();
+		showSlides = false;
+		gameObject.SetActive (false);
 	}
 	
 	// Hide the slides for the currently activated image.
 	void DisableAnimalSlide () {
-		slideShowCanvas.gameObject.SetActive (false);
-		Journal.activeCreature = null;
-		Journal.showSlide = false;
+		hideWhile.gameObject.SetActive (true);
+		gameObject.SetActive (false);
 	}
 
 	void Update () {
-		if (Journal.showSlide) {
+		if (showSlides) {
 			HandleChangeSlide ();
-			imagePaths = Journal.mainImages [Journal.activeCreature.name];
-			if (imagePaths.Count == 0) {
-				// we should not be trying to show anything
-				DisableAnimalSlide();
-				return;
-			}
-			currentImage.sprite = imagePaths [selectedImagesIndex];
+			currentImage.sprite = images [selectedImagesIndex];
 		}
+	}
+
+	public void ShowSlides (List<Sprite> images) {
+		if (images.Count == 0) {
+			DisableAnimalSlide ();
+			return;
+		}
+		this.images = images;
+		showSlides = true;
+		hideWhile.gameObject.SetActive (false);
+		gameObject.SetActive (true);
 	}
 
 	void HandleChangeSlide () {
@@ -48,18 +53,22 @@ public class SlideChanger : MonoBehaviour {
 		} else if (Input.GetKeyDown (prevSlide)) {
 			PrevSlide ();
 		} else if (Input.GetKeyDown (escapeSlide)) {
-			DisableAnimalSlide ();
+			Escape ();
 		}
 	}
 
-	void NextSlide () {
+	public void NextSlide () {
 		selectedImagesIndex += 1;
-		selectedImagesIndex = Mathf.Clamp (selectedImagesIndex, 0, imagePaths.Count);
+		selectedImagesIndex = selectedImagesIndex % (images.Count - 1);
 	}
 
-	void PrevSlide () {
+	public void PrevSlide () {
 		selectedImagesIndex -= 1;
-		selectedImagesIndex = Mathf.Clamp (selectedImagesIndex, 0, imagePaths.Count);
+		selectedImagesIndex = selectedImagesIndex % (images.Count - 1);
+	}
+
+	public void Escape () {
+		DisableAnimalSlide ();
 	}
 
 }

@@ -7,15 +7,13 @@ public class IsSeen : MonoBehaviour {
 	// do something if this object is seen by a camera
 
 	public Camera cam = null;
+	public TakePhoto takePhoto;
 
 	private float margin = -0.2f;
 	private float lowerMargin;
 	private float upperMargin;
 	private bool onScreen;
 
-
-	private static Dictionary<string, int> capturedCountMap = new Dictionary<string, int> ();
-	public static Dictionary<string, bool> discoveredCreatures = new Dictionary<string, bool> ();
 
 	// Use this for initialization
 	void Start () {
@@ -25,15 +23,7 @@ public class IsSeen : MonoBehaviour {
 
 		lowerMargin = 0 - margin;
 		upperMargin = 1 + margin;
-		// if this script is starting, there any photos that are taken will be the first that are taken for the parent object
-		capturedCountMap.Add (gameObject.name, 0);
 
-		if (!capturedCountMap.ContainsKey ("other")) {
-			capturedCountMap.Add ("other", 0);
-		}
-
-		// when the script starts, nothing has yet been photographed
-		discoveredCreatures[gameObject.name] = false;
 	}
 	
 	void Update () {
@@ -46,17 +36,9 @@ public class IsSeen : MonoBehaviour {
 	void OnGUI () {
 		if (onScreen && TakePhoto.takePhoto) {
 			Debug.Log (gameObject.name + " is in the photo.");
-			if (capturedCountMap.ContainsKey(gameObject.name)) {
-				// save as deer/img1, deer/img2, etc.
-				TakePhoto.DoCaptureScreen(gameObject); 
-				discoveredCreatures [gameObject.name] = true;
-				capturedCountMap [gameObject.name] += 1;
-			} else {
-				Debug.Log("Somehow the name of this object has not yet been initialised.");
-			}
+			takePhoto.DoCaptureScreen(gameObject.name); 
 		} else if (TakePhoto.takePhoto) {
-			TakePhoto.DoCaptureScreen (gameObject);
-			capturedCountMap ["other"] += 1;
+			takePhoto.DoCaptureScreen ("other");
 			Debug.Log ("A scenic photo was taken.");
 		}
 	}
