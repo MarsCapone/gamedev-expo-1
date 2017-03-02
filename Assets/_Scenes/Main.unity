@@ -874,12 +874,12 @@ GameObject:
   - component: {fileID: 110262683}
   - component: {fileID: 110262682}
   m_Layer: 5
-  m_Name: Button (8)
+  m_Name: Go Back
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &110262681
 RectTransform:
   m_ObjectHideFlags: 0
@@ -892,11 +892,11 @@ RectTransform:
   m_Children:
   - {fileID: 309598507}
   m_Father: {fileID: 544451961}
-  m_RootOrder: 8
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
-  m_AnchoredPosition: {x: -230.00008, y: -150}
+  m_AnchoredPosition: {x: -230.00008, y: -200}
   m_SizeDelta: {x: 160, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &110262682
@@ -937,7 +937,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 110262683}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1414960502}
+        m_MethodName: Close
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 1
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &110262683
@@ -1429,7 +1440,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
   Loop: 0
@@ -1595,7 +1606,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Button
+  m_Text: Go Back
 --- !u!222 &309598509
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1748,6 +1759,12 @@ CapsuleCollider:
   m_Height: 6
   m_Direction: 2
   m_Center: {x: -0.023092095, y: 3.160412, z: 3.0834384}
+--- !u!114 &316584497 stripped
+MonoBehaviour:
+  m_PrefabParentObject: {fileID: 114296072791294148, guid: 88effa4d4867c554a92751a0268b0813,
+    type: 2}
+  m_PrefabInternal: {fileID: 2135775773}
+  m_Script: {fileID: 11500000, guid: b198f3c9ef73aa94b996d7f1648d0c85, type: 3}
 --- !u!1 &347310460
 GameObject:
   m_ObjectHideFlags: 0
@@ -1809,7 +1826,7 @@ RectTransform:
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
   m_AnchoredPosition: {x: -100, y: 30}
-  m_SizeDelta: {x: 200, y: 100}
+  m_SizeDelta: {x: 200, y: 150}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &399122214
 MonoBehaviour:
@@ -1843,7 +1860,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "[F/Click] to take picture\n[E/Q] to zoom \n[R] to reset"
+  m_Text: "[F/Click] to take picture\n[E/Q] to zoom \n[R] to reset\n[C] to close camera"
 --- !u!222 &399122215
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -2115,11 +2132,11 @@ RectTransform:
   m_Children:
   - {fileID: 105139906}
   m_Father: {fileID: 544451961}
-  m_RootOrder: 9
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -280.00006, y: -150}
+  m_AnchoredPosition: {x: -280.00006, y: -100}
   m_SizeDelta: {x: 160, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &535912574
@@ -2253,8 +2270,8 @@ RectTransform:
   - {fileID: 1802522835}
   - {fileID: 743538093}
   - {fileID: 194341056}
-  - {fileID: 110262681}
   - {fileID: 535912573}
+  - {fileID: 110262681}
   - {fileID: 920808306}
   m_Father: {fileID: 2024602650}
   m_RootOrder: 0
@@ -3255,7 +3272,6 @@ GameObject:
   m_Component:
   - component: {fileID: 846177708}
   - component: {fileID: 846177709}
-  - component: {fileID: 846177710}
   m_Layer: 0
   m_Name: root
   m_TagString: Untagged
@@ -3294,86 +3310,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   toggle: 99
---- !u!82 &846177710
-AudioSource:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 846177706}
-  m_Enabled: 1
-  serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 0}
-  m_PlayOnAwake: 1
-  m_Volume: 1
-  m_Pitch: 1
-  Loop: 0
-  Mute: 0
-  Spatialize: 0
-  SpatializePostEffects: 0
-  Priority: 128
-  DopplerLevel: 1
-  MinDistance: 1
-  MaxDistance: 500
-  Pan2D: 0
-  rolloffMode: 0
-  BypassEffects: 0
-  BypassListenerEffects: 0
-  BypassReverbZones: 0
-  rolloffCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 2
-      time: 0
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-    - serializedVersion: 2
-      time: 1
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  panLevelCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 2
-      time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 0
-  spreadCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 2
-      time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  reverbZoneMixCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 2
-      time: 0
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 0
 --- !u!1 &859797800
 GameObject:
   m_ObjectHideFlags: 0
@@ -3529,7 +3465,7 @@ GameObject:
   - component: {fileID: 920808307}
   - component: {fileID: 920808310}
   m_Layer: 5
-  m_Name: Info
+  m_Name: About
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5209,6 +5145,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 030ac5e2305e8a64f89a3df904455816, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  timeController: {fileID: 316584497}
+  sunlight: {fileID: 2136680461}
+  daytimeSounds: []
+  nighttimeSounds: []
 --- !u!82 &1414960506
 AudioSource:
   m_ObjectHideFlags: 0

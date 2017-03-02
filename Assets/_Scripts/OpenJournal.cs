@@ -22,17 +22,25 @@ public class OpenJournal : MonoBehaviour {
 
 	void LateUpdate () {
 		if (journalIsOpen && prevState != journalIsOpen && !OpenCamera.cameraIsOpen) {
-			mainRoot.gameObject.SetActive (false);
-			journalRoot.gameObject.SetActive (true);
-			Time.timeScale = 0;
-			Cursor.lockState = CursorLockMode.None;
-			Cursor.visible = true;
+			Open ();
 		} else if (!journalIsOpen && prevState != journalIsOpen) {
-			mainRoot.gameObject.SetActive (true);
-			journalRoot.gameObject.SetActive (false);
-			Time.timeScale = 1;
-			Cursor.lockState = CursorLockMode.Locked;
-			Cursor.visible = false;
+			Close ();
 		}
+	}
+
+	public void Close () {
+		mainRoot.gameObject.SetActive (true);
+		journalRoot.gameObject.SetActive (false);
+		Time.timeScale = 1;
+		Cursor.lockState = CursorLockMode.Locked;
+		Cursor.visible = false;
+	}
+
+	public void Open () {
+		mainRoot.gameObject.SetActive (false);
+		journalRoot.gameObject.SetActive (true);
+		Time.timeScale = 0;
+		Cursor.lockState = CursorLockMode.None;
+		Cursor.visible = true;
 	}
 }

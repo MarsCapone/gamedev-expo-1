@@ -23,19 +23,12 @@ public class TakePhoto : MonoBehaviour {
 	}
 	
 	void Update () {
-		if (Input.GetKeyDown (photoCapture) && OpenCamera.cameraIsOpen) {
+		if ((Input.GetKeyDown (photoCapture) || Input.GetMouseButtonDown(0)) && OpenCamera.cameraIsOpen) {
 			print ("Taking a photo.");
 			takePhoto = true;
+			PlayShutterSound ();
 		} else {
 			takePhoto = false;
-		}
-	}
-
-	void OnGUI () {
-		if (takePhoto) {
-			PlayShutterSound ();
-			// do this is IsSeen instead
-			//DoCaptureScreen ("default");
 		}
 	}
 		
@@ -68,7 +61,7 @@ public class TakePhoto : MonoBehaviour {
 		ViewCreatures.AddCreatureImage (name, photo);
 	}
 
-	void PlayShutterSound () {
+	private void PlayShutterSound () {
 		audioSource.clip = shutterSound;
 		audioSource.Play ();
 	}
