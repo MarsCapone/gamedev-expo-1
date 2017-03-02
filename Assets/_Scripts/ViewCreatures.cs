@@ -14,6 +14,7 @@ public class ViewCreatures : MonoBehaviour {
 	public Text description;
 
 	public static Dictionary<string, List<Sprite>> mainImages = new Dictionary<string, List<Sprite>> ();
+	public static int foundCreatures = 0;
 	
 	// Update is called once per frame
 	void Update () {
@@ -60,6 +61,10 @@ public class ViewCreatures : MonoBehaviour {
 	public static void AddCreatureImage(string name, Sprite sprite) {
 		if (!mainImages.ContainsKey (name)) {
 			mainImages.Add (name, new List<Sprite> ());
+		}
+
+		if (mainImages [name].Count == 0) {
+			foundCreatures += 1; // findind a new creature
 		}
 		mainImages [name].Add (sprite);
 	}
