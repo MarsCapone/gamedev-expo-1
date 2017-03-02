@@ -12,6 +12,7 @@ public class SlideChanger : MonoBehaviour {
 
 	public GameObject hideWhile;
 	public Image currentImage;
+	public Text photoNumberText;
 
 	private int selectedImagesIndex = 0;
 	private List<Sprite> images;
@@ -27,12 +28,15 @@ public class SlideChanger : MonoBehaviour {
 	void DisableAnimalSlide () {
 		hideWhile.gameObject.SetActive (true);
 		gameObject.SetActive (false);
+		showSlides = false;
+		photoNumberText.text = "";
 	}
 
 	void Update () {
 		if (showSlides) {
 			HandleChangeSlide ();
 			currentImage.sprite = images [selectedImagesIndex];
+			photoNumberText.text = string.Format ("{0}/{1}", selectedImagesIndex + 1, images.Count);
 		}
 	}
 
@@ -45,6 +49,7 @@ public class SlideChanger : MonoBehaviour {
 		showSlides = true;
 		hideWhile.gameObject.SetActive (false);
 		gameObject.SetActive (true);
+		photoNumberText.text = string.Format ("{0}/{1}", selectedImagesIndex + 1, images.Count);
 	}
 
 	void HandleChangeSlide () {
@@ -59,12 +64,12 @@ public class SlideChanger : MonoBehaviour {
 
 	public void NextSlide () {
 		selectedImagesIndex += 1;
-		selectedImagesIndex = selectedImagesIndex % (images.Count - 1);
+		selectedImagesIndex = selectedImagesIndex % (images.Count);
 	}
 
 	public void PrevSlide () {
 		selectedImagesIndex -= 1;
-		selectedImagesIndex = selectedImagesIndex % (images.Count - 1);
+		selectedImagesIndex = selectedImagesIndex % (images.Count);
 	}
 
 	public void Escape () {
