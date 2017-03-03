@@ -2,21 +2,25 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class TutorialController : MonoBehaviour {
 
-    public GameObject cameraIcon, journalIcon, photoCameraInstructionsText;
+    public GameObject cameraIcon, journalIcon, photoCameraInstructionsText, completionText;
     public GameObject tutorialAnimal;
     public GameObject player;
     public GameObject mouseIcon, upArrowIcon, leftArrowIcon, rightArrowIcon, downArrowIcon, wasdIcon, cameraKeyIcon, takePhotoIcon, openScrapbookIcon;
 
     public GameObject cameraLeftArrowIcon, cameraRightArrowIcon, exitCameraIcon;
 
+    private List<GameObject> visibleUIElements = new List<GameObject>();
+    private List<GameObject> invisibleUIElements = new List<GameObject>();
+
     private float time;
 
     private float triggerTime = 0F;
     private TutorialStage triggerEvent = TutorialStage.nothing;
-
+    
     /*
      * tutorial schedule:
      * -move the mouse to look around
@@ -38,7 +42,7 @@ public class TutorialController : MonoBehaviour {
      *      this finishes the tutorial
      * 
      */
-
+     
     private enum TutorialStage
     {
         nothing=0,
@@ -52,13 +56,21 @@ public class TutorialController : MonoBehaviour {
         finished
     }
 
-    private TutorialStage stage = TutorialStage.lookAround;
+    private TutorialStage stage = TutorialStage.nothing;
 
 	// Use this for initialization
 	void Start () {
+        invisibleEverything();
+
+        photoCameraInstructionsText.SetActive(false);
         cameraIcon.SetActive(false);
         journalIcon.SetActive(false);
+        completionText.SetActive(false);
+
+        /*
         photoCameraInstructionsText.SetActive(false);
+
+
         mouseIcon.SetActive(true);
         upArrowIcon.SetActive(true);
         downArrowIcon.SetActive(true);
@@ -72,6 +84,7 @@ public class TutorialController : MonoBehaviour {
         cameraRightArrowIcon.SetActive(false);
         takePhotoIcon.SetActive(false);
         exitCameraIcon.SetActive(false);
+        */
     }
 
     void scheduleTutorialEvent(TutorialStage stage)
@@ -79,8 +92,9 @@ public class TutorialController : MonoBehaviour {
 
     }
 
-    private bool walked, openedCamera, openedScrapbook;
+    private bool walked;
 
+    float fadeInIncrement = 0.05f;
     // Update is called once per frame
 	void Update () {
         if (Input.GetKeyDown(KeyCode.Escape) && (stage < TutorialStage.camera || stage > TutorialStage.exitCamera))
@@ -100,11 +114,19 @@ public class TutorialController : MonoBehaviour {
         //}
         switch (stage)
         {
+            case TutorialStage.nothing:
+                makeVisible(mouseIcon);
+                makeVisible(upArrowIcon);
+                makeVisible(downArrowIcon);
+                makeVisible(leftArrowIcon);
+                makeVisible(rightArrowIcon);
+                stage = TutorialStage.lookAround;
+                break;
             case TutorialStage.lookAround:
                 if (Input.GetAxis("Mouse X") != 0 || Input.GetAxis("Mouse Y") != 0)
                 {
-                    mouseIcon.SetActive(false);
-                    wasdIcon.SetActive(true);
+                    makeInvisible(mouseIcon);
+                    makeVisible(wasdIcon);
                     stage = TutorialStage.walk;
                     Debug.Log("DEBUG: TUTORIAL: Walk with WASD");
                 }
@@ -112,13 +134,14 @@ public class TutorialController : MonoBehaviour {
             case TutorialStage.walk:
                 if (walked)
                 {
-                    wasdIcon.SetActive(false);
-                    upArrowIcon.SetActive(false);
-                    downArrowIcon.SetActive(false);
-                    leftArrowIcon.SetActive(false);
-                    rightArrowIcon.SetActive(false);
-                    cameraKeyIcon.SetActive(true);
+                    makeInvisible(wasdIcon);
+                    makeInvisible(upArrowIcon);
+                    makeInvisible(downArrowIcon);
+                    makeInvisible(leftArrowIcon);
+                    makeInvisible(rightArrowIcon);
+                    makeVisible(cameraKeyIcon);
                     cameraIcon.SetActive(true);
+                    makeVisible(cameraIcon);
                     stage = TutorialStage.camera;
                     Debug.Log("DEBUG: TUTORIAL: Open the camera");
                 }
@@ -170,8 +193,8 @@ public class TutorialController : MonoBehaviour {
                     takePhotoIcon.SetActive(false);
                     cameraLeftArrowIcon.SetActive(false);
                     cameraRightArrowIcon.SetActive(false);
-                    exitCameraIcon.SetActive(true);
                     photoCameraInstructionsText.SetActive(true);
+                    makeVisible(exitCameraIcon);
                     stage = TutorialStage.exitCamera;
                     Debug.Log("DEBUG: TUTORIAL: Exit the camera");
                 }
@@ -179,25 +202,26 @@ public class TutorialController : MonoBehaviour {
             case TutorialStage.exitCamera:
                 if (Input.GetKeyDown(KeyCode.C))
                 {
-                    exitCameraIcon.SetActive(false);
-                    openScrapbookIcon.SetActive(true);
+                    makeInvisible(exitCameraIcon);
+                    makeVisible(openScrapbookIcon);
                     journalIcon.SetActive(true);
+                    makeVisible(journalIcon);
                     stage = TutorialStage.scrapbook;
                     Debug.Log("DEBUG: TUTORIAL: Open the scrapbook");
                 }
                 break;
             case TutorialStage.scrapbook:
-                if (Input.GetKeyDown(KeyCode.Tab))
+                if (OpenJournal.journalIsOpen)
                 {
-                    openScrapbookIcon.SetActive(false);
-                    //TODO: close scrapbook icon
+                    makeInvisible(openScrapbookIcon);
                     stage = TutorialStage.exitScrapbook;
                     Debug.Log("DEBUG: TUTORIAL: Exit the scrapbook");
                 }
                 break;
             case TutorialStage.exitScrapbook:
-                if (Input.GetKeyDown(KeyCode.Tab))
+                if (!OpenJournal.journalIsOpen)
                 {
+                    makeInvisible(openScrapbookIcon);
                     Debug.Log("DEBUG: TUTORIAL: Finished.");
                     finishTutorial();
                 }
@@ -206,23 +230,32 @@ public class TutorialController : MonoBehaviour {
                 cameraIcon.SetActive(true);
                 journalIcon.SetActive(true);
                 photoCameraInstructionsText.SetActive(true);
+                completionText.SetActive(true);
                 break;
         }
-        //TODO listen for key events and move tutorial on accordingly
-        //if (triggerTime > 0)
-        //{
-        //    if (time > triggerTime && triggerEvent != TutorialStage.nothing)
-        //    {
-        //        switch (triggerEvent)
-        //        {
-        //            case TutorialStage.lookAround:
-        //                break;
-        //            default:
-        //                break;
-        //        }
-        //   }
-        //}
+        
+        for(int i = 0; i < visibleUIElements.Count; i++)
+        {
+            GameObject icon = visibleUIElements[i];
+            bool removeThisObject = incrementColor(icon, fadeInIncrement, 1);
+            if (removeThisObject)
+            {
+                visibleUIElements.RemoveAt(i);
+                i--;
+            }
+        }
 
+        for (int i = 0; i < invisibleUIElements.Count; i++)
+        {
+            GameObject icon = invisibleUIElements[i];
+            bool removeThisObject = incrementColor(icon, -fadeInIncrement, 0);
+            if (removeThisObject)
+            {
+                invisibleUIElements.RemoveAt(i);
+                i--;
+            }
+        }
+        
     }
 
     void finishTutorial()
@@ -230,10 +263,63 @@ public class TutorialController : MonoBehaviour {
         stage = TutorialStage.finished;
     }
 
-    //public void updateTime(float t)
-    //{
-    //    time = t;
-    //}
 
-    //public void newDay() { }
+    void makeVisible(GameObject o)
+    {
+        if (invisibleUIElements.Contains(o)) invisibleUIElements.Remove(o);
+        visibleUIElements.Add(o);
+    }
+
+    void makeInvisible(GameObject o)
+    {
+        if(visibleUIElements.Contains(o)) visibleUIElements.Remove(o);
+        invisibleUIElements.Add(o);
+    }
+
+    void invisibleEverything()
+    {
+        invisibleUIElements.AddRange(new GameObject[] { cameraIcon, journalIcon , mouseIcon,
+        upArrowIcon, downArrowIcon, leftArrowIcon, rightArrowIcon, wasdIcon, cameraKeyIcon, openScrapbookIcon,
+         exitCameraIcon}); //cameraLeftArrowIcon, cameraRightArrowIcon, takePhotoIcon,
+
+        foreach (GameObject o in invisibleUIElements)
+        {
+            try
+            {
+                SpriteRenderer renderer = o.GetComponent<SpriteRenderer>();
+                renderer.color = new Color(renderer.color.r, renderer.color.g, renderer.color.b, 0f);
+            }catch(MissingComponentException mce)
+            {
+                RawImage image = o.GetComponent<RawImage>();
+                image.color = new Color(image.color.r, image.color.g, image.color.b, 0f);
+            }
+        }
+
+    }
+
+    bool incrementColor(GameObject icon, float amount, float target)
+    {
+        try{
+            SpriteRenderer renderer = icon.GetComponent<SpriteRenderer>();
+            if ((amount < 0 && renderer.color.a > target) || (amount > 0 && renderer.color.a < target))
+            {
+                renderer.color = new Color(1, 1, 1, renderer.color.a + amount);
+                return false;
+            }else
+            {
+                return true;
+            }
+        }catch (MissingComponentException mce)
+        {
+            RawImage image = icon.GetComponent<RawImage>();
+            if ((amount < 0 && image.color.a > target) || (amount > 0 && image.color.a < target))
+            {
+                image.color = new Color(1, 1, 1, image.color.a + amount);
+                return false;
+            }else
+            {
+                return true;
+            }
+        }
+    }
 }
