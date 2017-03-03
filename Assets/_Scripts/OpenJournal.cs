@@ -34,6 +34,7 @@ public class OpenJournal : MonoBehaviour {
 		Time.timeScale = 1;
 		Cursor.lockState = CursorLockMode.Locked;
 		Cursor.visible = false;
+        journalIsOpen = false;
 	}
 
 	public void Open () {
