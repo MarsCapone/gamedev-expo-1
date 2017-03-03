@@ -1,68 +1,67 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System;
+using System.IO;
 using UnityEngine;
 
 [RequireComponent(typeof(AudioSource))]
 public class TakePhoto : MonoBehaviour {
 
+	private const int PHOTO_SIZE = 600;
+
 	public static bool takePhoto = false;
 	public KeyCode photoCapture;
 	public AudioClip shutterSound;
-	public int resWidth = 480;
-	public int resHeight = 480;
+	public Camera cam;
+	public GameObject overlay;
 
-	private Camera cam;
 	private AudioSource audioSource;
 
 
 	void Start () {
-		cam = GameObject.Find ("Polaroid").GetComponent<Camera> ();
 		audioSource = GetComponent<AudioSource> ();
 	}
-
-	public static string GetPhotoName(int w, int h) {
-		return string.Format ("{0}/photos/{1}x{2}_{3}.png",
-			Application.persistentDataPath, w, h, System.DateTime.Now.ToString ("yyyyMMdd-HHmmss"));
-	}
 	
-	void LateUpdate () {
-		if (Input.GetKeyDown (photoCapture) && OpenCamera.cameraIsOpen) {
+	void Update () {
+		if ((Input.GetKeyDown (photoCapture) || Input.GetMouseButtonDown(0)) && OpenCamera.cameraIsOpen) {
+			print ("Taking a photo.");
 			takePhoto = true;
+			PlayShutterSound ();
 		} else {
 			takePhoto = false;
 		}
 	}
-
-	void OnGUI () {
-		if (takePhoto) {
-			PlayShutterSound ();
-			CaptureScreen ();
-		}
-	}
 		
-	void CaptureScreen () {
+	public Sprite CaptureScreen () {
+		int size = PHOTO_SIZE;
 
-		RenderTexture rt = new RenderTexture (resWidth, resHeight, 24);
+		RenderTexture rt = new RenderTexture (size, size, 24);
 		cam.targetTexture = rt;
 		cam.Render ();
 		RenderTexture.active = rt;
 
-		Texture2D photo = new Texture2D (resWidth, resHeight, TextureFormat.RGB24, false);
-		photo.ReadPixels (new Rect (0, 0, resWidth, resHeight), 0, 0);
+		Texture2D photo = new Texture2D (size, size, TextureFormat.RGB24, false);
+		photo.ReadPixels (new Rect (0, 0, size, size), 0, 0);
 		photo.Apply ();
-
-		byte[] bytes = photo.EncodeToPNG ();
-		string filename = GetPhotoName (resWidth, resHeight);
-		System.IO.File.WriteAllBytes (filename, bytes);
-		//Debug.Log ("Took photo to: " + filename);
-		takePhoto = false;
 
 		cam.targetTexture = null;
 		Destroy (rt);
+
+		TakePhoto.takePhoto = false;
+
+		Sprite sprite;
+		sprite = Sprite.Create (photo, new Rect (0, 0, photo.width, photo.height), new Vector2 (0, 0), 100f);
+		return sprite;
 	}
 
-	void PlayShutterSound () {
+	public void DoCaptureScreen (string name) {
+		overlay.SetActive (false); // don't capture the overlay in the image
+		Sprite photo = CaptureScreen ();
+		overlay.SetActive (true);
+		ViewCreatures.AddCreatureImage (name, photo);
+	}
+
+	private void PlayShutterSound () {
 		audioSource.clip = shutterSound;
 		audioSource.Play ();
 	}

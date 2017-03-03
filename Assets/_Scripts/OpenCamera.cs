@@ -15,7 +15,6 @@ public class OpenCamera : MonoBehaviour {
 	Canvas photoCanvas;
 	Canvas iconCanvas;
 	FirstPersonController player;
-	AudioSource audio;
 
 	// Use this for initialization
 	void Start () {
@@ -28,7 +27,6 @@ public class OpenCamera : MonoBehaviour {
 		photoCanvas.gameObject.SetActive (false);
 		photoCam.gameObject.SetActive (false);
 
-		audio = GetComponent<AudioSource> ();
 	}
 	
 	// Update is called once per frame

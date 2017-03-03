@@ -1,16 +1,16 @@
 
 Environment (James)
 
-*   Render journal
-*   Render camera
-*   Find creatures
-*   Define what each creature does
+*   Render journal			- IN PROGRESS
+*   Render camera			- DONE
+*   Find creatures 			- IN PROGRESS
+*   Define what each creature does	- IN PROGRESS
 
 Player (Samson)
 
-*   Key presses for journal and camera 
-*   Take snapshot
-*   Detect creatures in view
+*   Key presses for journal and camera 	- DONE
+*   Take snapshot 			- DONE
+*   Detect creatures in view		- DONE
 
 Optional
 *   Inventory (with baiting)
