@@ -51,8 +51,12 @@ public class TimeController : MonoBehaviour
         timeBasedObjects.Remove(obj);
     }
 
-	public float GetTime() {
+	public float GetTime () {
 		return time;
+	}
+
+	public Sunlight GetSun () {
+		return sun;
 	}
 }
 

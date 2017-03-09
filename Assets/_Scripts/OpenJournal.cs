@@ -18,6 +18,10 @@ public class OpenJournal : MonoBehaviour {
 		if (Input.GetKeyDown (toggle) && !OpenCamera.cameraIsOpen) {
 			journalIsOpen = !journalIsOpen;
 		}
+
+		if (Input.GetKeyDown (KeyCode.Escape) && !OpenCamera.cameraIsOpen && journalIsOpen) {
+			journalIsOpen = false;
+		}
 	}
 
 	void LateUpdate () {

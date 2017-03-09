@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 public class ViewCreatures : MonoBehaviour {
 
-	private GameObject current = null;
+	private string current = null;
 
 	public SlideChanger slideShow;
 	public Image mainImage;
@@ -21,23 +21,35 @@ public class ViewCreatures : MonoBehaviour {
 		if (current == null) {
 			description.gameObject.SetActive (false);
 			mainText.gameObject.SetActive (true);
-			mainImage.sprite = null;
-			mainText.text = "None selected";
+
+			// try to find an object that has images
+			foreach (string creature in mainImages.Keys) {
+				List<Sprite> creatureImages = mainImages [creature];
+				if (creatureImages.Count > 0) {
+					current = creature;
+				}
+				break;
+			}
+			if (current == null) {
+				mainImage.sprite = null;
+				mainText.text = "None selected";
+			}
 		} else {
 			description.gameObject.SetActive (true);
-			description.text = current.name;
-			if (!mainImages.ContainsKey (current.name)) {
-				mainImages.Add (current.name, new List<Sprite> ());
+			description.text = Capitalize(current);
+			if (!mainImages.ContainsKey (current)) {
+				mainImages.Add (current, new List<Sprite> ());
 			}
 
-			List<Sprite> sprites = mainImages [current.name];
+			List<Sprite> sprites = mainImages [current];
 			if (sprites.Count == 0) { // no photos taken yet
 				mainText.gameObject.SetActive (true);
 				mainText.text = "None found";
 				mainImage.sprite = null;
 			} else {
 				mainText.gameObject.SetActive (false);
-				mainImage.sprite = sprites [0];
+				// show the last photo taken
+				mainImage.sprite = sprites [sprites.Count - 1];
 			}
 		}
 	}
@@ -47,25 +59,31 @@ public class ViewCreatures : MonoBehaviour {
 			return;
 		}
 
-		if (mainImages.ContainsKey(current.name)) {
-			slideShow.ShowSlides(mainImages[current.name]);
+		if (mainImages.ContainsKey(current)) {
+			slideShow.ShowSlides(mainImages[current]);
 		} else {
 			return;
 		}
 	}
 
-	public void SetCurrentCreature(GameObject go) {
-		current = go;
+	public void SetCurrentCreature(string creature) {
+		creature = creature.ToLower ();
+		current = creature;
 	}
 
 	public static void AddCreatureImage(string name, Sprite sprite) {
+		name = name.ToLower ();
 		if (!mainImages.ContainsKey (name)) {
 			mainImages.Add (name, new List<Sprite> ());
 		}
 
 		if (mainImages [name].Count == 0) {
-			foundCreatures += 1; // findind a new creature
+			foundCreatures += 1; // finding a new creature
 		}
 		mainImages [name].Add (sprite);
+	}
+
+	private string Capitalize(string input) {
+		return char.ToUpper (input [0]) + input.Substring (1);
 	}
 }

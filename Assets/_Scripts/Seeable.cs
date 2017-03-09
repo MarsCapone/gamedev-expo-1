@@ -5,21 +5,20 @@ using UnityEngine;
 public class Seeable : MonoBehaviour {
 
 	public ViewCreatures viewCreatures;
-	public GameObject creature;
+	public string creature;
 
 	public static HashSet<string> seeableCreatures = new HashSet<string> ();
 
 	public void Start () {
 		if (creature == null) {
-			creature = new GameObject ();
-			creature.name = "other";
+			creature = "Other";
 		}
-		seeableCreatures.Add (creature.name);
+		seeableCreatures.Add (creature);
 	}
 
 	public void Select () {
 		// activate the creature
-		print(creature.name + " button has been pressed.");
+		print(creature + " button has been pressed.");
 		viewCreatures.SetCurrentCreature(creature);
 	}
 }

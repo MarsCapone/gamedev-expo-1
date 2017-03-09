@@ -26,10 +26,13 @@ public class TakePhoto : MonoBehaviour {
 		if ((Input.GetKeyDown (photoCapture) || Input.GetMouseButtonDown(0)) && OpenCamera.cameraIsOpen) {
 			print ("Taking a photo.");
 			takePhoto = true;
-			PlayShutterSound ();
 		} else {
 			takePhoto = false;
 		}
+	}
+
+	void OnGui () {
+		PlayShutterSound ();
 	}
 		
 	public Sprite CaptureScreen () {
