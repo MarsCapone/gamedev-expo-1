@@ -127,9 +127,9 @@ public class TutorialController : MonoBehaviour
 				//StartCoroutine (ShortDelay ());
 				stage = TutorialStage.nothing;
 				titleScreen.SetActive (false);
-                    takePhotoIcon.SetActive(false);
-                    cameraLeftArrowIcon.SetActive(false);
-                    cameraRightArrowIcon.SetActive(false);
+				takePhotoIcon.SetActive (false);
+				cameraLeftArrowIcon.SetActive (false);
+				cameraRightArrowIcon.SetActive (false);
 			}
 			break;
 		case TutorialStage.nothing:
@@ -241,7 +241,7 @@ public class TutorialController : MonoBehaviour
 			}
 			break;
 		case TutorialStage.scrapbook:
-			if (OpenJournal.journalIsOpen) {
+			if (Input.GetKeyDown (KeyCode.Tab) || OpenJournal.journalIsOpen) {
 				makeInvisible (openScrapbookIcon);
 				stage = TutorialStage.exitScrapbook;
 			}
