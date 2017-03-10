@@ -4,7 +4,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class TutorialController : MonoBehaviour {
+public class TutorialController : MonoBehaviour
+{
 
     public GameObject cameraIcon, journalIcon, photoCameraInstructionsText, completionText;
     public GameObject tutorialAnimal;
@@ -17,13 +18,20 @@ public class TutorialController : MonoBehaviour {
 
     private List<GameObject> visibleUIElements = new List<GameObject>();
     private List<GameObject> invisibleUIElements = new List<GameObject>();
+	public GameObject cameraIcon, journalIcon, photoCameraInstructionsText;
+	public GameObject tutorialAnimal;
+	public GameObject player;
+	public GameObject mouseIcon, upArrowIcon, leftArrowIcon, rightArrowIcon, downArrowIcon, wasdIcon, cameraKeyIcon, takePhotoIcon, openScrapbookIcon;
 
-    private float time;
+	public GameObject cameraLeftArrowIcon, cameraRightArrowIcon, exitCameraIcon;
 
-    private float triggerTime = 0F;
-    private TutorialStage triggerEvent = TutorialStage.nothing;
-    
+	private float time;
+
     /*
+	private float triggerTime = 0F;
+	private TutorialStage triggerEvent = TutorialStage.nothing;
+
+	/*
      * tutorial schedule:
      * -move the mouse to look around
      *      mouse icon and arrows UDLR
@@ -336,4 +344,5 @@ public class TutorialController : MonoBehaviour {
             }
         }
     }
+
 }

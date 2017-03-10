@@ -4,8 +4,9 @@ using System;
 using System.IO;
 using UnityEngine;
 
-[RequireComponent(typeof(AudioSource))]
-public class TakePhoto : MonoBehaviour {
+[RequireComponent (typeof(AudioSource))]
+public class TakePhoto : MonoBehaviour
+{
 
 	private const int PHOTO_SIZE = 600;
 
@@ -18,21 +19,28 @@ public class TakePhoto : MonoBehaviour {
 	private AudioSource audioSource;
 
 
-	void Start () {
+	void Start ()
+	{
 		audioSource = GetComponent<AudioSource> ();
 	}
-	
-	void LateUpdate () {
-		if ((Input.GetKeyDown (photoCapture) || Input.GetMouseButtonDown(0)) && OpenCamera.cameraIsOpen) {
-			print ("Taking a photo.");
+
+
+	void FixedUpdate ()
+	{
+		if ((Input.GetKeyDown (photoCapture) || Input.GetMouseButtonDown (0)) && OpenCamera.cameraIsOpen) {
+			Logging.Info ("Take a photo this frame.");
 			takePhoto = true;
 			PlayShutterSound ();
 		} else {
 			takePhoto = false;
 		}
 	}
-		
-	public Sprite CaptureScreen () {
+
+
+	public Sprite CaptureScreen ()
+	{
+		overlay.SetActive (false);
+
 		int size = PHOTO_SIZE;
 
 		RenderTexture rt = new RenderTexture (size, size, 24);
@@ -44,25 +52,26 @@ public class TakePhoto : MonoBehaviour {
 		photo.ReadPixels (new Rect (0, 0, size, size), 0, 0);
 		photo.Apply ();
 
+		RenderTexture.active = null;
+
 		cam.targetTexture = null;
 		Destroy (rt);
 
 		TakePhoto.takePhoto = false;
 
-		Sprite sprite;
-		sprite = Sprite.Create (photo, new Rect (0, 0, photo.width, photo.height), new Vector2 (0, 0), 100f);
+		overlay.SetActive (true);
+
+		Sprite sprite = Sprite.Create (photo, new Rect (0, 0, photo.width, photo.height), new Vector2 (0, 0), 100f);
+		Logging.Info ("Saving pixels on screen to a Sprite object.");
 		return sprite;
 	}
 
-	public void DoCaptureScreen (string name) {
-		overlay.SetActive (false); // don't capture the overlay in the image
-		Sprite photo = CaptureScreen ();
-		overlay.SetActive (true);
-		ViewCreatures.AddCreatureImage (name, photo);
-	}
-
-	private void PlayShutterSound () {
+	private void PlayShutterSound ()
+	{
+		Logging.Info ("Play the camera shutter sound.");
+		audioSource.mute = false;
 		audioSource.clip = shutterSound;
 		audioSource.Play ();
+		audioSource.mute = true;
 	}
 }

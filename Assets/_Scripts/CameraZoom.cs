@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CameraZoom : MonoBehaviour {
+public class CameraZoom : MonoBehaviour
+{
 
 	public Camera cam;
 	public float minFov;
@@ -16,14 +17,18 @@ public class CameraZoom : MonoBehaviour {
 	private float fov;
 	
 	// Update is called once per frame
-	void Update () {
+	void Update ()
+	{
 		if (OpenCamera.cameraIsOpen) {
 			fov = cam.fieldOfView;
 			if (Input.GetKeyDown (increaseZoom)) {
+				Logging.Info ("Increasing camera zoom.");
 				fov += 5;
 			} else if (Input.GetKeyDown (decreaseZoom)) {
+				Logging.Info ("Decreasing camera zoom."); 
 				fov -= 5;
 			} else if (Input.GetKeyDown (resetZoom)) {
+				Logging.Info ("Resetting camera zoom.");
 				fov = defaultFov;
 			}
 			fov = Mathf.Clamp (fov, minFov, maxFov);
