@@ -10,7 +10,7 @@ public class IsSeen : MonoBehaviour
 
 	public HashSet<string> registeredCreatures;
 	private Sprite image;
-	private bool isFirstPhoto = true;
+	private bool isFirstPhoto = false;
 
 	// Use this for initialization
 	void Start ()
