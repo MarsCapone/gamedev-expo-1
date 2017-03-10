@@ -7,14 +7,14 @@ public class EatBehaviour : AnimalBehaviour
 {
     public GameObject[] eatLocations;
     private System.Random rnd;
-    public float secondsToEatFor = 5f;
+    public float hoursToEatFor = 5f;
 
     public EatBehaviour()
     {
         rnd = new System.Random();
     }
 
-    public override void perform(Animal animal)
+    /*public override void perform(Animal animal)
     {
         Action walkAction = null;
         Action eatAction = delegate
@@ -30,5 +30,10 @@ public class EatBehaviour : AnimalBehaviour
             animal.setContinuation(eatAction);
         };
         walkAction();
+    }*/
+
+    public override void perform(Animal animal)
+    {
+        animal.eat(hoursToEatFor);
     }
 }

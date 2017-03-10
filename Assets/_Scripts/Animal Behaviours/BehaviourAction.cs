@@ -5,5 +5,6 @@
     sleep,
     walkTowards,
     runAway,
-    wander
+    wander,
+    eat
 }

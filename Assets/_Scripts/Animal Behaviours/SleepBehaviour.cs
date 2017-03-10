@@ -10,10 +10,10 @@ public class SleepBehaviour : AnimalBehaviour
     {
         Action goToSleep = delegate { animal.sleep(); };
         Action walkHome = delegate {
-            animal.walkTo(home.GetComponent<Transform>().position);
+            if (home) animal.walkTo(home.GetComponent<Transform>().position);
             goToSleep();
         };
-        goToSleep(); //DEBUG - normally call walkHome() first
+        walkHome();
     }
     
 }

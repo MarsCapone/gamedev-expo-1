@@ -35,7 +35,6 @@ public class IguanaCharacter : Animal {
 	}
 
     //JPML:
-    public GameObject[] foodPlaces;
     NavMeshAgent nma;
     Animator iguanaAnimator;
     Rigidbody rb;
@@ -52,14 +51,11 @@ public class IguanaCharacter : Animal {
 
         set
         {
-            if (_state == BehaviourState.asleep)
+            if (_state == BehaviourState.asleep && value != BehaviourState.asleep)
             {
                 Rebirth();
-            }
-            if(value == BehaviourState.eating)
-            {
-                Move(0, 0);
-                Eat();
+                Debug.Log("iguana awakens");
+                //rb.constraints = RigidbodyConstraints.None;
             }
             _state = value;
         }
@@ -77,6 +73,7 @@ public class IguanaCharacter : Animal {
     {
         if (currentAction == BehaviourAction.walkTowards)
         {
+            Move(nma.velocity.magnitude, 0);
             float distanceToTarget = nma.remainingDistance;
             if ((!nma.pathPending) &&
                 (nma.remainingDistance <= nma.stoppingDistance) &&
@@ -95,14 +92,22 @@ public class IguanaCharacter : Animal {
                     idle();
                 }
             }
+        }else if(state == BehaviourState.eating)
+        {
+            if (rnd.NextDouble() > 0.99)
+            {
+                Eat();
+            }
         }
     }
 
     public override void sleep()
     {
         Move(0, 0);
+        //nma.ResetPath();
         Death();
         state = BehaviourState.asleep;
+        //rb.constraints = RigidbodyConstraints.FreezeAll;
     }
     
     public override void walkTo(Vector3 location, float tolerance = 0)
@@ -122,10 +127,7 @@ public class IguanaCharacter : Animal {
         state = BehaviourState.walking;
     }
 
-    public override void eat(float hoursToEatFor)
-    {
-    }
-
+    
     public override void runAwayFrom(GameObject obj, float distanceToRun, float tolerance = 0)
     {
         throw new NotImplementedException();
