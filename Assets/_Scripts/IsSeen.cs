@@ -1,49 +1,53 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using System.IO;
 using UnityEngine;
 
-public class IsSeen : MonoBehaviour, IsSeenableEvent {
-	// do something if this object is seen by a camera
+public class IsSeen : MonoBehaviour
+{
 
-	public Camera cam = null;
 	public TakePhoto takePhoto;
-
-	private float margin = -0.2f;
-	private float lowerMargin;
-	private float upperMargin;
-	private Renderer render;
-	public bool onScreen;
-
+	private HashSet<string> registeredCreatures;
+	private Sprite image;
 
 	// Use this for initialization
-	void Start () {
-		if (cam == null) {
-			cam = GameObject.Find ("Polaroid").GetComponent<Camera> ();
+	void Start ()
+	{
+		registeredCreatures = new HashSet<string> ();
+		Logging.Info ("Initialising photo registerer.");
+	}
+
+	void LateUpdate ()
+	{
+		Process ();
+	}
+
+	public void Process ()
+	{
+		if (TakePhoto.takePhoto) {
+
+			Logging.Info ("Saving current photo.");
+			Sprite image = takePhoto.CaptureScreen ();
+
+			// nothing has been seen, but a photo has been taken, so it is a scenic photo
+			if (registeredCreatures.Count == 0) {
+				Logging.Debug ("Add scenic image to static ViewCreatures.");
+				ViewCreatures.AddCreatureImage ("scenic", image);
+			} else {
+				// there are some photos of some creatures
+				Logging.Debug (string.Format ("Adding creatures to journal for current frame. [registeredCreatures {0}]", registeredCreatures.Count));
+				foreach (string creature in registeredCreatures) {
+					Logging.Debug (string.Format ("Adding sprite image for {0} to static ViewCreatures.", creature));
+					ViewCreatures.AddCreatureImage (creature, image);
+				}
+			}
+
+			// clear out everything from this frame
+			registeredCreatures.Clear ();
 		}
-
-		lowerMargin = 0 - margin;
-		upperMargin = 1 + margin;
-
-		render = GetComponent<Renderer> ();
 	}
 
-	void Update () {
-		onScreen = IsOnScreen ();
-	}
-
-	public bool IsOnScreen () {
-		Vector3 screenPoint = cam.WorldToViewportPoint (gameObject.transform.position);
-		bool inDisplay = screenPoint.x > lowerMargin && screenPoint.y > lowerMargin &&
-			screenPoint.x < upperMargin && screenPoint.y < upperMargin &&
-			screenPoint.z > 0;
-		return inDisplay;
-	}
-
-	void OnGUI () {
-		if (onScreen && TakePhoto.takePhoto) {
-			Debug.Log (gameObject.name + " is in the photo.");
-			takePhoto.DoCaptureScreen(gameObject.name); 
-		}
+	public void RegisterCreaturePhoto (string creatureName)
+	{
+		registeredCreatures.Add (creatureName.ToLower ());
 	}
 }

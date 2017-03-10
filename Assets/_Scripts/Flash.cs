@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Flash : MonoBehaviour {
+public class Flash : MonoBehaviour
+{
 
 	public Light flash1;
 	public Light flash2;
@@ -21,7 +22,8 @@ public class Flash : MonoBehaviour {
 	private int jumpPerFrame;
 
 	// Use this for initialization
-	void Start () {
+	void Start ()
+	{
 		flash1.intensity = 0;
 		flash2.intensity = 0;
 		flash3.intensity = 0;
@@ -29,23 +31,17 @@ public class Flash : MonoBehaviour {
 
 		runningFlash = false;
 		totalIntensity = 32;
-		jumpPerFrame = (int) totalIntensity / framesToFade;
+		jumpPerFrame = (int)totalIntensity / framesToFade;
+
+		Logging.Info ("Camera flash initialised.");
 	}
 
-//	void Update () {
-//		if (TakePhoto.takePhoto) {
-//			// reset things after you take a new photo`
-//			runningFlash = false;
-//			doFlash = false;
-//			SetMinLight ();
-//		}
-//	}
-	
-	void LateUpdate () {
+	void LateUpdate ()
+	{
 		// this should happen the frame after a photo is taken
 		// so actual photo doesn't have the flash in it
 		if (doFlash) {
-			print ("starting flash");
+			Logging.Debug ("Starting camera flash.");
 			DoFlash ();
 		}
 
@@ -78,7 +74,7 @@ public class Flash : MonoBehaviour {
 		}
 
 		if (TakePhoto.takePhoto) {
-			print ("do the flash on the next frame");
+			Logging.Debug ("Prepping to do camera flash on next frame.");
 
 			// switch off the light in preparation for an imminent photo
 			SetMinLight ();
@@ -87,7 +83,8 @@ public class Flash : MonoBehaviour {
 		}
 	}
 
-	void DoFlash () {
+	void DoFlash ()
+	{
 		runningFlash = true;
 		doFlash = false;
 		currentLevel = totalIntensity;
@@ -96,14 +93,16 @@ public class Flash : MonoBehaviour {
 		SetMaxLight ();
 	}
 
-	void SetMaxLight () {
+	void SetMaxLight ()
+	{
 		flash1.intensity = MAX_LIGHT;
 		flash2.intensity = MAX_LIGHT;
 		flash3.intensity = MAX_LIGHT;
 		flash4.intensity = MAX_LIGHT;
 	}
 
-	void SetMinLight() {
+	void SetMinLight ()
+	{
 		flash1.intensity = MIN_LIGHT;
 		flash2.intensity = MIN_LIGHT;
 		flash3.intensity = MIN_LIGHT;

@@ -2,9 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Networking.NetworkSystem;
+using System;
 
 
-public class ViewCreatures : MonoBehaviour {
+public class ViewCreatures : MonoBehaviour
+{
 
 	private string current = null;
 
@@ -15,10 +18,16 @@ public class ViewCreatures : MonoBehaviour {
 
 	public static Dictionary<string, List<Sprite>> mainImages = new Dictionary<string, List<Sprite>> ();
 	public static int foundCreatures = 0;
-	
+
+	void Start ()
+	{
+		Logging.Info ("Initialising journal panel.");
+	}
+
 	// Update is called once per frame
-	void Update () {
-		if (current == null) {
+	void Update ()
+	{
+		if (current == null || current == "") {
 			description.gameObject.SetActive (false);
 			mainText.gameObject.SetActive (true);
 
@@ -36,7 +45,7 @@ public class ViewCreatures : MonoBehaviour {
 			}
 		} else {
 			description.gameObject.SetActive (true);
-			description.text = Capitalize(current);
+			description.text = Capitalize (current);
 			if (!mainImages.ContainsKey (current)) {
 				mainImages.Add (current, new List<Sprite> ());
 			}
@@ -54,24 +63,29 @@ public class ViewCreatures : MonoBehaviour {
 		}
 	}
 
-	public void ShowCreature () {
+	public void ShowCreature ()
+	{
+		Logging.Info (string.Format ("Showing the current creature on the journal: {0}", current));
 		if (current == null) {
 			return;
 		}
 
-		if (mainImages.ContainsKey(current)) {
-			slideShow.ShowSlides(mainImages[current]);
+		if (mainImages.ContainsKey (current)) {
+			slideShow.ShowSlides (mainImages [current]);
 		} else {
 			return;
 		}
 	}
 
-	public void SetCurrentCreature(string creature) {
+	public void SetCurrentCreature (string creature)
+	{
 		creature = creature.ToLower ();
 		current = creature;
+		Logging.Info (string.Format ("Setting {0} as the current creature to show.", current));
 	}
 
-	public static void AddCreatureImage(string name, Sprite sprite) {
+	public static void AddCreatureImage (string name, Sprite sprite)
+	{
 		name = name.ToLower ();
 		if (!mainImages.ContainsKey (name)) {
 			mainImages.Add (name, new List<Sprite> ());
@@ -81,9 +95,17 @@ public class ViewCreatures : MonoBehaviour {
 			foundCreatures += 1; // finding a new creature
 		}
 		mainImages [name].Add (sprite);
+		Logging.Info (string.Format ("Added an image of {0} to the journal.", name));
 	}
 
-	private string Capitalize(string input) {
-		return char.ToUpper (input [0]) + input.Substring (1);
+	private string Capitalize (string input)
+	{
+		if (!(input == null || input == "")) {
+			char[] inputArr = input.ToCharArray ();
+			inputArr [0] = char.ToUpper (inputArr [0]);
+			return new string (inputArr);
+		} else {
+			throw new ArgumentNullException ("input");
+		}
 	}
 }
