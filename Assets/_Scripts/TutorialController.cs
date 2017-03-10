@@ -211,7 +211,7 @@ public class TutorialController : MonoBehaviour
                         }
                     }*/
 			}
-			if (/*tutorialAnimal.GetComponent<IsSeen>().IsOnScreen() && */(Input.GetKeyDown (KeyCode.F) || Input.GetMouseButtonDown (0))) {
+			if (tutorialAnimal.GetComponent<GenericOnScreen>().IsOnScreen() && (Input.GetKeyDown (KeyCode.F) || Input.GetMouseButtonDown (0))) {
 				takePhotoIcon.SetActive (false);
 				cameraLeftArrowIcon.SetActive (false);
 				cameraRightArrowIcon.SetActive (false);
@@ -232,7 +232,7 @@ public class TutorialController : MonoBehaviour
 		case TutorialStage.scrapbook:
 			if (OpenJournal.journalIsOpen) {
 				makeInvisible (openScrapbookIcon);
-				stage = TutorialStage.exitScrapbook;
+                stage = TutorialStage.exitScrapbook;
 			}
 			break;
 		case TutorialStage.exitScrapbook:
