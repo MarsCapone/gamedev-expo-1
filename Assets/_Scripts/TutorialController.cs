@@ -127,6 +127,9 @@ public class TutorialController : MonoBehaviour
 				//StartCoroutine (ShortDelay ());
 				stage = TutorialStage.nothing;
 				titleScreen.SetActive (false);
+                    takePhotoIcon.SetActive(false);
+                    cameraLeftArrowIcon.SetActive(false);
+                    cameraRightArrowIcon.SetActive(false);
 			}
 			break;
 		case TutorialStage.nothing:
