@@ -105,6 +105,12 @@ public class TutorialController : MonoBehaviour
 	private bool walked;
 
 	float fadeInIncrement = 0.05f;
+
+	private IEnumerator ShortDelay ()
+	{
+		yield return new WaitForSecondsRealtime (2);
+	}
+
 	// Update is called once per frame
 	void Update ()
 	{
@@ -113,13 +119,11 @@ public class TutorialController : MonoBehaviour
 		//    finishTutorial();
 		//}
 		/*else*/
-		if (Input.GetAxis ("Horizontal") != 0 || Input.GetAxis ("Vertical") != 0) {
-			walked = true;
-		}
 		switch (stage) {
 		case TutorialStage.pre:
 			titleScreen.SetActive (true);
 			if (Input.anyKey) {
+				StartCoroutine (ShortDelay ());
 				stage = TutorialStage.nothing;
 				titleScreen.SetActive (false);
 			}
@@ -140,6 +144,9 @@ public class TutorialController : MonoBehaviour
 			}
 			break;
 		case TutorialStage.walk:
+			if (Input.GetAxis ("Horizontal") != 0 || Input.GetAxis ("Vertical") != 0) {
+				walked = true;
+			}
 			if (walked) {
 				makeInvisible (wasdIcon);
 				makeInvisible (upArrowIcon);

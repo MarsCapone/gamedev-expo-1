@@ -20,7 +20,7 @@ public abstract class IsOnScreenable : MonoBehaviour
 	void Update ()
 	{
 		isOnScreen = IsOnScreen ();
-		//Logging.Debug (string.Format ("{0} is on screen.", seenName));
+		Logging.Debug (string.Format ("{0} is on screen.", seenName));
 
 		if (TakePhoto.takePhoto && isOnScreen) {
 			Logging.Info (string.Format ("{0} has been seen in a photo. Registering for journal...", seenName));
