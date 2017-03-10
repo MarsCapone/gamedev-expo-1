@@ -3342,9 +3342,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 40fa6ef6395a93d4b9656569ea973e2d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startTime: 0
+  startTime: 8.5
   enabled: 1
-  eatLocations: []
+  eatLocations:
+  - {fileID: 33050836}
+  - {fileID: 279123202}
+  secondsToEatFor: 5
 --- !u!114 &829374104
 MonoBehaviour:
   m_ObjectHideFlags: 0
