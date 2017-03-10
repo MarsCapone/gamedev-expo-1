@@ -55,6 +55,7 @@ public class SlideChanger : MonoBehaviour
 		this.images = images;
 		this.images.Reverse ();
 		showSlides = true;
+		selectedImagesIndex = 0;
 		hideWhile.gameObject.SetActive (false);
 		gameObject.SetActive (true);
 		photoNumberText.text = string.Format ("{0}/{1}", selectedImagesIndex + 1, images.Count);

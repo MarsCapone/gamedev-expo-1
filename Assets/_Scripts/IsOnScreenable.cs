@@ -7,6 +7,10 @@ public abstract class IsOnScreenable : MonoBehaviour
 	public IsSeen isSeen;
 	public string seenName;
 	public bool isOnScreen = false;
+	public Camera cam;
+
+	protected const float lowerMargin = 0.2f;
+	protected const float upperMargin = 0.8f;
 
 	void Start ()
 	{
@@ -25,4 +29,16 @@ public abstract class IsOnScreenable : MonoBehaviour
 	}
 
 	public abstract bool IsOnScreen ();
+
+
+	// USEFUL FUNCTIONS
+
+	protected bool IsWithinViewport ()
+	{
+		Vector3 screenPoint = cam.WorldToViewportPoint (gameObject.transform.position);
+		bool inDisplay = screenPoint.x > lowerMargin && screenPoint.y > lowerMargin &&
+		                 screenPoint.x < upperMargin && screenPoint.y < upperMargin &&
+		                 screenPoint.z > 0;
+		return inDisplay; 
+	}
 }

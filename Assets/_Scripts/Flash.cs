@@ -83,6 +83,7 @@ public class Flash : MonoBehaviour
 		}
 	}
 
+	// Start doing the flash
 	void DoFlash ()
 	{
 		runningFlash = true;
@@ -93,6 +94,7 @@ public class Flash : MonoBehaviour
 		SetMaxLight ();
 	}
 
+	// Camera flash on full power.
 	void SetMaxLight ()
 	{
 		flash1.intensity = MAX_LIGHT;
@@ -101,6 +103,7 @@ public class Flash : MonoBehaviour
 		flash4.intensity = MAX_LIGHT;
 	}
 
+	// Switch off the camera flash.
 	void SetMinLight ()
 	{
 		flash1.intensity = MIN_LIGHT;
