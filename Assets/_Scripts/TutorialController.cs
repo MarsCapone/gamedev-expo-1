@@ -63,6 +63,7 @@ public class TutorialController : MonoBehaviour
 		finished
 	}
 
+	//	private TutorialStage stage = TutorialStage.pre;
 	private TutorialStage stage = TutorialStage.pre;
 
 	// Use this for initialization
@@ -112,7 +113,7 @@ public class TutorialController : MonoBehaviour
 	}
 
 	// Update is called once per frame
-	void Update ()
+	void FixedUpdate ()
 	{
 		//if (Input.GetKeyDown(KeyCode.Escape) && (stage < TutorialStage.camera || stage > TutorialStage.exitCamera))
 		//{
@@ -123,7 +124,7 @@ public class TutorialController : MonoBehaviour
 		case TutorialStage.pre:
 			titleScreen.SetActive (true);
 			if (Input.anyKey) {
-				StartCoroutine (ShortDelay ());
+				//StartCoroutine (ShortDelay ());
 				stage = TutorialStage.nothing;
 				titleScreen.SetActive (false);
 			}
@@ -218,7 +219,7 @@ public class TutorialController : MonoBehaviour
                         }
                     }*/
 			}
-			if (tutorialAnimal.GetComponent<GenericOnScreen>().IsOnScreen() && (Input.GetKeyDown (KeyCode.F) || Input.GetMouseButtonDown (0))) {
+			if (tutorialAnimal.GetComponent<GenericOnScreen> ().IsOnScreen () && (Input.GetKeyDown (KeyCode.F) || Input.GetMouseButtonDown (0))) {
 				takePhotoIcon.SetActive (false);
 				cameraLeftArrowIcon.SetActive (false);
 				cameraRightArrowIcon.SetActive (false);
@@ -239,7 +240,7 @@ public class TutorialController : MonoBehaviour
 		case TutorialStage.scrapbook:
 			if (OpenJournal.journalIsOpen) {
 				makeInvisible (openScrapbookIcon);
-                stage = TutorialStage.exitScrapbook;
+				stage = TutorialStage.exitScrapbook;
 			}
 			break;
 		case TutorialStage.exitScrapbook:

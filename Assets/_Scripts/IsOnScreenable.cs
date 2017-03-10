@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Text.RegularExpressions;
 
 public abstract class IsOnScreenable : MonoBehaviour
 {
@@ -20,11 +21,11 @@ public abstract class IsOnScreenable : MonoBehaviour
 	void Update ()
 	{
 		isOnScreen = IsOnScreen ();
-		Logging.Debug (string.Format ("{0} is on screen.", seenName));
 
 		if (TakePhoto.takePhoto && isOnScreen) {
+			isSeen.registeredCreatures.Add (seenName.ToLower ());
 			Logging.Info (string.Format ("{0} has been seen in a photo. Registering for journal...", seenName));
-			isSeen.RegisterCreaturePhoto (seenName);
+			Logging.Debug (string.Format ("registered creatures: {0}", isSeen.registeredCreatures.Count));
 		}
 	}
 
@@ -38,7 +39,8 @@ public abstract class IsOnScreenable : MonoBehaviour
 		Vector3 screenPoint = cam.WorldToViewportPoint (gameObject.transform.position);
 		bool inDisplay = screenPoint.x > lowerMargin && screenPoint.y > lowerMargin &&
 		                 screenPoint.x < upperMargin && screenPoint.y < upperMargin &&
-		                 screenPoint.z > 0;
+		                 screenPoint.z > 0 && screenPoint.z < 50;
+//		Logging.Debug (string.Format ("On screen: {0} => {1} ({2})", seenName, screenPoint, cam.transform.position));
 		return inDisplay; 
 	}
 }
