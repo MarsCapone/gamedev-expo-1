@@ -18,12 +18,6 @@ public class TutorialController : MonoBehaviour
 
     private List<GameObject> visibleUIElements = new List<GameObject>();
     private List<GameObject> invisibleUIElements = new List<GameObject>();
-	public GameObject cameraIcon, journalIcon, photoCameraInstructionsText;
-	public GameObject tutorialAnimal;
-	public GameObject player;
-	public GameObject mouseIcon, upArrowIcon, leftArrowIcon, rightArrowIcon, downArrowIcon, wasdIcon, cameraKeyIcon, takePhotoIcon, openScrapbookIcon;
-
-	public GameObject cameraLeftArrowIcon, cameraRightArrowIcon, exitCameraIcon;
 
 	private float time;
 
@@ -214,7 +208,7 @@ public class TutorialController : MonoBehaviour
                         }
                     }*/
                 }
-                if(tutorialAnimal.GetComponent<IsSeen>().IsOnScreen() && (Input.GetKeyDown(KeyCode.F) || Input.GetMouseButtonDown(0)))
+                if(/*tutorialAnimal.GetComponent<IsSeen>().IsOnScreen() && */(Input.GetKeyDown(KeyCode.F) || Input.GetMouseButtonDown(0)))
                 {
                     takePhotoIcon.SetActive(false);
                     cameraLeftArrowIcon.SetActive(false);
