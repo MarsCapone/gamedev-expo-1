@@ -9,6 +9,11 @@ public class EatBehaviour : AnimalBehaviour
     private System.Random rnd;
     public float secondsToEatFor = 5f;
 
+    public EatBehaviour()
+    {
+        rnd = new System.Random();
+    }
+
     public override void perform(Animal animal)
     {
         Action walkAction = null;
@@ -19,11 +24,11 @@ public class EatBehaviour : AnimalBehaviour
         };
         walkAction = delegate
         {
-            Debug.Log(eatLocations);
+            Debug.Log(eatLocations[0]);
             GameObject eatLocation = eatLocations[(int)rnd.NextDouble() * eatLocations.Length];
             animal.walkTo(eatLocation.transform.position, 5);
             animal.setContinuation(eatAction);
         };
-        //walkAction(); //for now do nothing cos it doesn't work yet
+        walkAction();
     }
 }

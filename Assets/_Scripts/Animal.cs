@@ -7,6 +7,7 @@ public abstract class Animal : MonoBehaviour, ITimeBasedObject {
     
     public BehaviourState initialState;
     protected bool scheduleInterrupted = false;
+    protected bool returnFromInterrupt = false;
     public abstract BehaviourState state
     {
         get;
@@ -40,13 +41,14 @@ public abstract class Animal : MonoBehaviour, ITimeBasedObject {
         {
             foreach (AnimalBehaviour b in schedule)
             {
-                if (b.startTime <= time || !currentBehaviour)
+                if (b.startTime <= time || (!currentBehaviour && returnFromInterrupt))
                 {
                     if (!currentBehaviour || (currentBehaviour != b && currentBehaviour.startTime < b.startTime))
                     {
-                        Debug.Log(b.ToString());
+                        Logging.Log(Logging.LogLevel.INFO, this.name.ToString() + " is now performing a " + b.ToString() + " (time: "+time+").");
                         currentBehaviour = b;
                         b.activate(this);
+                        returnFromInterrupt = false;
                         break;
                     }
                 }
@@ -87,6 +89,7 @@ public abstract class Animal : MonoBehaviour, ITimeBasedObject {
     {
         currentInterrupt = null;
         scheduleInterrupted = false;
+        returnFromInterrupt = true;
     }
 
     //each animal should act out actions in a frame-by-frame manner within this method

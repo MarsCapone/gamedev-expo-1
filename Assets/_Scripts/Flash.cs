@@ -36,7 +36,7 @@ public class Flash : MonoBehaviour
 		Logging.Info ("Camera flash initialised.");
 	}
 
-	void LateUpdate ()
+	void Update ()
 	{
 		// this should happen the frame after a photo is taken
 		// so actual photo doesn't have the flash in it

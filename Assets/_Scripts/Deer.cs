@@ -37,7 +37,7 @@ public class Deer : Animal {
                 {
                     //wake up by playing the asleep animation backwards
                     AnimationState wakeState = animationController.PlayQueued(sleepAnimation, QueueMode.PlayNow);
-                    wakeState.speed = scheduleInterrupted ? -1F : -0.25F; //if interrupted from sleep, wake up fast, otherwise really groggily
+                    wakeState.speed = scheduleInterrupted ? -2F : -0.25F; //if interrupted from sleep, wake up fast, otherwise really groggily
                     wakeState.time = animationController[sleepAnimation].length - 0.01F; //fix from http://answers.unity3d.com/questions/156869/reverse-animation-with-quotplayqueuedquot.html
                                                                                          //then play the desired animation
                     _state = value;
@@ -47,7 +47,7 @@ public class Deer : Animal {
                 {
                     _state = value;
                     //set things up before playing
-                    if (value == BehaviourState.asleep)
+                    if (value == BehaviourState.asleep && _state != BehaviourState.asleep)
                     {
                         animationController[sleepAnimation].speed = 1;
                         animationController[sleepAnimation].time = -1;
