@@ -22,7 +22,7 @@ public class TimeController : MonoBehaviour
         time = initialTime;
         Update();
         timeBasedObjects.Add(sun);
-        timeBasedObjects.AddRange(animals.GetComponentsInChildren<Animal>());
+        timeBasedObjects.AddRange(animals.GetComponentsInChildren<ITimeBasedObject>());
     }
 
     // Update is called once per frame

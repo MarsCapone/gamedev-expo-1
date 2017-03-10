@@ -22,7 +22,7 @@ public class TakePhoto : MonoBehaviour {
 		audioSource = GetComponent<AudioSource> ();
 	}
 	
-	void Update () {
+	void LateUpdate () {
 		if ((Input.GetKeyDown (photoCapture) || Input.GetMouseButtonDown(0)) && OpenCamera.cameraIsOpen) {
 			print ("Taking a photo.");
 			takePhoto = true;

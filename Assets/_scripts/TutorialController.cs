@@ -9,9 +9,11 @@ public class TutorialController : MonoBehaviour {
     public GameObject cameraIcon, journalIcon, photoCameraInstructionsText, completionText;
     public GameObject tutorialAnimal;
     public GameObject player;
+    
+    //reason for loads of public variables like this: so that the objects can be dragged and dropped in unity
     public GameObject mouseIcon, upArrowIcon, leftArrowIcon, rightArrowIcon, downArrowIcon, wasdIcon, cameraKeyIcon, takePhotoIcon, openScrapbookIcon;
-
-    public GameObject cameraLeftArrowIcon, cameraRightArrowIcon, exitCameraIcon;
+    
+    public GameObject cameraLeftArrowIcon, cameraRightArrowIcon, cameraUpArrowIcon, cameraDownArrowIcon, exitCameraIcon;
 
     private List<GameObject> visibleUIElements = new List<GameObject>();
     private List<GameObject> invisibleUIElements = new List<GameObject>();
@@ -97,21 +99,14 @@ public class TutorialController : MonoBehaviour {
     float fadeInIncrement = 0.05f;
     // Update is called once per frame
 	void Update () {
-        if (Input.GetKeyDown(KeyCode.Escape) && (stage < TutorialStage.camera || stage > TutorialStage.exitCamera))
-        {
-            finishTutorial();
-        }
-        else if (Input.GetAxis("Horizontal") != 0 || Input.GetAxis("Vertical") != 0)
+        //if (Input.GetKeyDown(KeyCode.Escape) && (stage < TutorialStage.camera || stage > TutorialStage.exitCamera))
+        //{
+        //    finishTutorial();
+        //}
+        /*else*/ if (Input.GetAxis("Horizontal") != 0 || Input.GetAxis("Vertical") != 0)
         {
             walked = true;
         }
-        //else if (Input.GetKeyDown(KeyCode.C))
-        //{
-        //    openedCamera = true;
-        //}else if (Input.GetKeyDown(KeyCode.Tab))
-        //{
-        //    openedScrapbook = true;
-        //}
         switch (stage)
         {
             case TutorialStage.nothing:
@@ -128,7 +123,6 @@ public class TutorialController : MonoBehaviour {
                     makeInvisible(mouseIcon);
                     makeVisible(wasdIcon);
                     stage = TutorialStage.walk;
-                    Debug.Log("DEBUG: TUTORIAL: Walk with WASD");
                 }
                 break;
             case TutorialStage.walk:
@@ -143,7 +137,6 @@ public class TutorialController : MonoBehaviour {
                     cameraIcon.SetActive(true);
                     makeVisible(cameraIcon);
                     stage = TutorialStage.camera;
-                    Debug.Log("DEBUG: TUTORIAL: Open the camera");
                 }
                 break;
             case TutorialStage.camera:
@@ -151,44 +144,69 @@ public class TutorialController : MonoBehaviour {
                 {
                     cameraKeyIcon.SetActive(false);
                     stage = TutorialStage.takePhoto;
-                    Debug.Log("DEBUG: TUTORIAL: Look for the tutorial object and take a photo of it");
                 }
                 break;
             case TutorialStage.takePhoto:
                 Transform cameraTransform = player.GetComponent<Transform>();
                 Transform animalTransform = tutorialAnimal.GetComponent<Transform>();
-                Vector2 xCameraTransform = new Vector2(cameraTransform.position.x, cameraTransform.position.z);
-                Vector2 xAnimalTransform = new Vector2(animalTransform.position.x, animalTransform.position.z);
-                Vector2 toVector = xAnimalTransform - xCameraTransform;
-                Vector2 fromVector = new Vector2(cameraTransform.forward.x, cameraTransform.forward.z);
+                Vector2 camera2DpointH = new Vector2(cameraTransform.position.x, cameraTransform.position.z);
+                Vector2 animal2DpointH = new Vector2(animalTransform.position.x, animalTransform.position.z);
+                Vector2 toVectorH = animal2DpointH - camera2DpointH;
+                Vector2 fromVectorH = new Vector2(cameraTransform.forward.x, cameraTransform.forward.z);
+                
+                /*
+                Vector2 camera2DpointV = new Vector2(cameraTransform.position.y, cameraTransform.position.z);
+                Vector2 animal2DpointV = new Vector2(animalTransform.position.y, animalTransform.position.z);
+                Vector2 toVectorV = animal2DpointV - camera2DpointV;
+                Vector2 fromVectorV = new Vector2(cameraTransform.forward.y, cameraTransform.forward.z);
+                */
 
                 //magnitude of the angle between camera direction and animal (dot product)
-                float angle = Vector2.Angle(fromVector, toVector);
-                if(angle < 20.0F)
+                float angleH = Vector2.Angle(fromVectorH, toVectorH);
+                //float angleV = Vector2.Angle(fromVectorV, toVectorV);
+                if(angleH < 20.0F)// && angleV < 20.0F)
                 {
                     takePhotoIcon.SetActive(true);
                     cameraLeftArrowIcon.SetActive(false);
                     cameraRightArrowIcon.SetActive(false);
-                }else
-                {
-                    //polarity of the angle (cross product)
-                    Vector3 cross = Vector3.Cross(fromVector, toVector);
-                    if(cross.z > 0)
-                    {
-                        takePhotoIcon.SetActive(false);
-                        cameraLeftArrowIcon.SetActive(true);
-                        cameraRightArrowIcon.SetActive(false);
-                    }else
-                    {
-                        takePhotoIcon.SetActive(false);
-                        cameraLeftArrowIcon.SetActive(false);
-                        cameraRightArrowIcon.SetActive(true);
-                    }
+                    //cameraUpArrowIcon.SetActive(false);
+                    //cameraDownArrowIcon.SetActive(false);
                 }
-                /*!!! TEMPORARY CHECK TO PROGRESS TUTORIAL ON
-                 * TODO REPLACE CONDITION WITH ACTUAL 'IS THIS ANIMAL IN THE PHOTO' CHECK !!!
-                 */
-                if(angle < 20.0F && (Input.GetKeyDown(KeyCode.F) || Input.GetMouseButtonDown(0)))
+                else
+                {
+                    takePhotoIcon.SetActive(false);
+                    if (angleH >= 20.0F)
+                    {
+                        //polarity of the angle (cross product)
+                        Vector3 crossH = Vector3.Cross(fromVectorH, toVectorH);
+                        if (crossH.z > 0)
+                        {
+                            cameraLeftArrowIcon.SetActive(true);
+                            cameraRightArrowIcon.SetActive(false);
+                        }
+                        else
+                        {
+                            cameraLeftArrowIcon.SetActive(false);
+                            cameraRightArrowIcon.SetActive(true);
+                        }
+                    }
+                    /*if(angleV >= 20.0F)
+                    {
+                        Vector3 crossV = Vector3.Cross(fromVectorV, toVectorV);
+                        Debug.Log(crossV);
+                        if (crossV.x > 0)
+                        {
+                            cameraUpArrowIcon.SetActive(true);
+                            cameraDownArrowIcon.SetActive(false);
+                        }
+                        else
+                        {
+                            cameraUpArrowIcon.SetActive(false);
+                            cameraDownArrowIcon.SetActive(true);
+                        }
+                    }*/
+                }
+                if(tutorialAnimal.GetComponent<IsSeen>().IsOnScreen() && (Input.GetKeyDown(KeyCode.F) || Input.GetMouseButtonDown(0)))
                 {
                     takePhotoIcon.SetActive(false);
                     cameraLeftArrowIcon.SetActive(false);
@@ -196,7 +214,6 @@ public class TutorialController : MonoBehaviour {
                     photoCameraInstructionsText.SetActive(true);
                     makeVisible(exitCameraIcon);
                     stage = TutorialStage.exitCamera;
-                    Debug.Log("DEBUG: TUTORIAL: Exit the camera");
                 }
                 break;
             case TutorialStage.exitCamera:
@@ -207,7 +224,6 @@ public class TutorialController : MonoBehaviour {
                     journalIcon.SetActive(true);
                     makeVisible(journalIcon);
                     stage = TutorialStage.scrapbook;
-                    Debug.Log("DEBUG: TUTORIAL: Open the scrapbook");
                 }
                 break;
             case TutorialStage.scrapbook:
@@ -215,14 +231,12 @@ public class TutorialController : MonoBehaviour {
                 {
                     makeInvisible(openScrapbookIcon);
                     stage = TutorialStage.exitScrapbook;
-                    Debug.Log("DEBUG: TUTORIAL: Exit the scrapbook");
                 }
                 break;
             case TutorialStage.exitScrapbook:
                 if (!OpenJournal.journalIsOpen)
                 {
                     makeInvisible(openScrapbookIcon);
-                    Debug.Log("DEBUG: TUTORIAL: Finished.");
                     finishTutorial();
                 }
                 break;

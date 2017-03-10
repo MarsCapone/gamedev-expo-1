@@ -10,5 +10,6 @@ public abstract class BehaviourInterrupt : MonoBehaviour {
     public abstract void trigger();
 
     public abstract bool check();
+    //public abstract bool checkFinished();
 
 }
